@@ -12,12 +12,13 @@ import { AuthCredentialsDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 import { UserRole } from './enums/user-role.enum';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-  jwtService: any;
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
+    private readonly jwtService: JwtService,
   ) {}
 
   async signUp(
@@ -29,6 +30,7 @@ export class AuthService {
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(password, salt);
 
+    // create user;
     const user = this.userRepository.create({
       username,
       password: hashedPassword,
@@ -38,8 +40,12 @@ export class AuthService {
     });
 
     try {
+      // post user to database;
       await this.userRepository.save(user);
-      return { accessToken: await this.createToken(user) };
+
+      // return Token;
+      const accessToken: string = await this.createToken(user);
+      return { accessToken };
     } catch (error) {
       if (error.code === '23505') {
         // 23505 --> duplicate username
@@ -57,12 +63,14 @@ export class AuthService {
     const user = await this.userRepository.findOne({ where: { username } });
 
     if (user && (await bcrypt.compare(password, user.password))) {
-      return { accessToken: await this.createToken(user) };
+      const accessToken: string = await this.createToken(user);
+      return { accessToken };
     } else {
       throw new UnauthorizedException('Please check your login credentials');
     }
   }
 
+  /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ create JWT ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
   private async createToken(user: User): Promise<string> {
     const payload: JwtPayload = {
       username: user.username,
@@ -83,6 +91,7 @@ export class AuthService {
 
         in the task request, it can get this user too!
     */
-    return await this.jwtService.sign(payload);
+    const accessToken: string = await this.jwtService.sign(payload);
+    return accessToken;
   }
 }
