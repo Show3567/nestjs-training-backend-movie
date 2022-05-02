@@ -9,15 +9,15 @@ export class AuthController {
 
   @Post('/signup')
   signUp(
-    @Body() authCredentialsDto: SignUpCredentialsDto,
+    @Body() signupCredentialsDto: SignUpCredentialsDto,
   ): Promise<{ accessToken: string }> {
-    return this.authService.signUp(authCredentialsDto);
+    return this.authService.signUp(signupCredentialsDto);
   }
 
   @Post('/signin')
   signIn(
-    @Body() authCredentialsDto: SignInCredentialsDto,
+    @Body() signinCredentialsDto: SignInCredentialsDto,
   ): Promise<{ accessToken: string }> {
-    return this.authService.signIn(authCredentialsDto);
+    return this.authService.signIn(signinCredentialsDto);
   }
 }

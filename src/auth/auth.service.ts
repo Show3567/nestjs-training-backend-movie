@@ -23,9 +23,9 @@ export class AuthService {
   ) {}
 
   async signUp(
-    authCredentialsDto: SignUpCredentialsDto,
+    signupCredentialsDto: SignUpCredentialsDto,
   ): Promise<{ accessToken: string }> {
-    const { username, password, email, tmdb_key } = authCredentialsDto;
+    const { username, password, email, tmdb_key } = signupCredentialsDto;
 
     // hash the password;
     const salt = await bcrypt.genSalt();
@@ -58,9 +58,9 @@ export class AuthService {
   }
 
   async signIn(
-    authCredentialsDto: SignInCredentialsDto,
+    signinCredentialsDto: SignInCredentialsDto,
   ): Promise<{ accessToken: string }> {
-    const { username, password } = authCredentialsDto;
+    const { username, password } = signinCredentialsDto;
     const user = await this.userRepository.findOne({ where: { username } });
 
     if (user && (await bcrypt.compare(password, user.password))) {
