@@ -9,7 +9,7 @@ import {
 } from 'class-validator';
 import { UserRole } from '../enums/user-role.enum';
 
-export class AuthCredentialsDto {
+export class SignUpCredentialsDto {
   @IsString()
   @MinLength(4)
   @MaxLength(10)

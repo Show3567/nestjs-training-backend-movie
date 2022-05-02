@@ -8,11 +8,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
-import { AuthCredentialsDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 import { UserRole } from './enums/user-role.enum';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { JwtService } from '@nestjs/jwt';
+import { SignUpCredentialsDto } from './dto/signup.dto';
+import { SignInCredentialsDto } from './dto/signin.dto';
 
 @Injectable()
 export class AuthService {
@@ -22,7 +23,7 @@ export class AuthService {
   ) {}
 
   async signUp(
-    authCredentialsDto: AuthCredentialsDto,
+    authCredentialsDto: SignUpCredentialsDto,
   ): Promise<{ accessToken: string }> {
     const { username, password, email, tmdb_key } = authCredentialsDto;
 
@@ -57,7 +58,7 @@ export class AuthService {
   }
 
   async signIn(
-    authCredentialsDto: AuthCredentialsDto,
+    authCredentialsDto: SignInCredentialsDto,
   ): Promise<{ accessToken: string }> {
     const { username, password } = authCredentialsDto;
     const user = await this.userRepository.findOne({ where: { username } });
