@@ -1,6 +1,7 @@
 import {
   IsEmail,
   IsEnum,
+  IsOptional,
   IsString,
   Matches,
   MaxLength,
@@ -26,6 +27,7 @@ export class AuthCredentialsDto {
   @IsEmail()
   readonly email: string;
 
+  @IsOptional()
   @IsEnum(UserRole)
   readonly role: string;
 

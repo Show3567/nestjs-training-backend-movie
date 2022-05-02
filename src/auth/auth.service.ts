@@ -9,6 +9,7 @@ import * as bcrypt from 'bcrypt';
 
 import { AuthCredentialsDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
+import { UserRole } from './enums/user-role.enum';
 
 @Injectable()
 export class AuthService {
@@ -26,6 +27,9 @@ export class AuthService {
     const user = this.userRepository.create({
       username,
       password: hashedPassword,
+      email,
+      tmdb_key,
+      role: UserRole.USER,
     });
 
     try {
