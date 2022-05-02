@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [
@@ -17,10 +17,24 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       autoLoadEntities: true,
       synchronize: true,
     }),
-    UserModule,
     AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
+
+/* 
+    Typeorm:
+    npm i @nestjs/typeorm typeorm pg
+
+    Class libs:
+    npm i class-validator class-transformer
+
+    JWT:
+    npm i @nestjs/jwt @nestjs/passport passport passport-jwt
+    npm i @types/passport-jwt
+
+    Swagger:
+    npm i @nestjs/swagger swagger-ui-express
+*/
