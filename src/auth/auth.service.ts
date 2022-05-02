@@ -76,7 +76,7 @@ export class AuthService {
     const { role } = updateCredentialDto;
     const updatedUser = await this.userRepository.update(user.id, {
       ...updateCredentialDto,
-      role: (<any>UserRole)[role],
+      role: UserRole[role],
     });
 
     return updatedUser;

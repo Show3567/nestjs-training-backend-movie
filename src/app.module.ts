@@ -40,4 +40,13 @@ export class AppModule {}
 
     Swagger:
     npm i @nestjs/swagger swagger-ui-express
+    
+    Config: 
+    npm i @nestjs/config
+    
+    Joi varification: 
+    npm i @hapi/joi
+    
+    Hold JWT secure: 
+    https://passwordsgenerator.net/
 */
