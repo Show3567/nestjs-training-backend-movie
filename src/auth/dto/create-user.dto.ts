@@ -1,18 +1,37 @@
-import { IsString, Matches, MaxLength, MinLength } from 'class-validator';
+import {
+  IsEmail,
+  IsEnum,
+  IsString,
+  Matches,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
+import { UserRole } from '../enums/user-role.enum';
 
 export class AuthCredentialsDto {
   @IsString()
   @MinLength(4)
   @MaxLength(10)
-  username: string;
+  readonly username: string;
 
   @IsString()
   @MinLength(4)
   @MaxLength(10)
   @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
-    message: 'password is too week',
+    message: 'password is too week!',
   })
-  password: string;
+  readonly password: string;
+
+  @IsString()
+  @IsEmail()
+  readonly email: string;
+
+  @IsEnum(UserRole)
+  readonly role: string;
+
+  @IsString()
+  @MinLength(15)
+  tmdb_key: string;
 }
 
 /**
