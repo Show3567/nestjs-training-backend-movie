@@ -2,6 +2,7 @@ import {
   ConflictException,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -14,6 +15,7 @@ import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { JwtService } from '@nestjs/jwt';
 import { SignUpCredentialsDto } from './dto/signup.dto';
 import { SignInCredentialsDto } from './dto/signin.dto';
+import { UpdateCredentialDto } from './dto/update-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -27,29 +29,25 @@ export class AuthService {
   ): Promise<{ accessToken: string }> {
     const { username, password, email, tmdb_key } = signupCredentialsDto;
 
-    // hash the password;
-    const salt = await bcrypt.genSalt();
+    const salt = await bcrypt.genSalt(); // hash the password;
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // create user;
     const user = this.userRepository.create({
       username,
       password: hashedPassword,
       email,
       tmdb_key,
       role: UserRole.USER,
-    });
-
+    }); // create user;
     try {
-      // post user to database;
-      await this.userRepository.save(user);
+      await this.userRepository.save(user); // post user to database;
 
-      // return Token;
-      const accessToken: string = await this.createToken(user);
+      const accessToken: string = await this.createToken(user); // return Token;
       return { accessToken };
     } catch (error) {
       if (error.code === '23505') {
         // 23505 --> duplicate username
+
         throw new ConflictException('Username already exists');
       } else {
         throw new InternalServerErrorException();
@@ -69,6 +67,28 @@ export class AuthService {
     } else {
       throw new UnauthorizedException('Please check your login credentials');
     }
+  }
+
+  async updateUser(updateCredentialDto: UpdateCredentialDto, user: User) {
+    await this.getUser(user);
+
+    console.log(updateCredentialDto);
+
+    const updatedUser = await this.userRepository.update(user.id, {
+      ...updateCredentialDto,
+      role: UserRole.USER,
+    });
+
+    return updatedUser;
+  }
+
+  async getUser(user: User): Promise<User> {
+    const existUser = await this.userRepository.findOne({
+      where: { user },
+    });
+    if (!existUser)
+      throw new NotFoundException(`User "${user.username}" not found!`);
+    return user;
   }
 
   /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ create JWT ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
