@@ -31,10 +31,22 @@ export class AppModule {}
     Class libs:
     npm i class-validator class-transformer
 
+    Bcrypt:
+    npm i bcrypt
+
     JWT:
     npm i @nestjs/jwt @nestjs/passport passport passport-jwt
     npm i @types/passport-jwt
 
     Swagger:
     npm i @nestjs/swagger swagger-ui-express
+    
+    Config: 
+    npm i @nestjs/config
+    
+    Joi varification: 
+    npm i @hapi/joi
+    
+    Hold JWT secure: 
+    https://passwordsgenerator.net/
 */
