@@ -40,9 +40,10 @@ export class AuthService {
       role: UserRole.USER,
     }); // create user;
     try {
-      await this.userRepository.save(user); // post user to database;
-
+      const thisuser = await this.userRepository.save(user); // post user to database;
       const accessToken: string = await this.createToken(user); // return Token;
+
+      console.log('thisuser: ', thisuser);
       return { accessToken };
     } catch (error) {
       if (error.code === '23505') {
@@ -70,13 +71,12 @@ export class AuthService {
   }
 
   async updateUser(updateCredentialDto: UpdateCredentialDto, user: User) {
-    await this.getUser(user);
+    // await this.getUser(user);
 
-    console.log(updateCredentialDto);
-
+    const { role } = updateCredentialDto;
     const updatedUser = await this.userRepository.update(user.id, {
       ...updateCredentialDto,
-      role: UserRole.USER,
+      role: (<any>UserRole)[role],
     });
 
     return updatedUser;
