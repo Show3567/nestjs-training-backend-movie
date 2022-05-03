@@ -43,7 +43,6 @@ export class AuthService {
       const thisuser = await this.userRepository.save(user); // post user to database;
       const accessToken: string = await this.createToken(user); // return Token;
 
-      console.log('thisuser: ', thisuser);
       return { accessToken };
     } catch (error) {
       if (error.code === '23505') {
