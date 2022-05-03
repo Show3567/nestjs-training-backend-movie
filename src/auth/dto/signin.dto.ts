@@ -1,16 +1,10 @@
-import { IsString, Matches, MaxLength, MinLength } from 'class-validator';
+import { IsEmail, IsString } from 'class-validator';
 
 export class SignInCredentialsDto {
   @IsString()
-  @MinLength(4)
-  @MaxLength(10)
-  readonly username: string;
+  @IsEmail()
+  readonly email: string;
 
   @IsString()
-  @MinLength(4)
-  @MaxLength(10)
-  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
-    message: 'password is too week!',
-  })
   readonly password: string;
 }

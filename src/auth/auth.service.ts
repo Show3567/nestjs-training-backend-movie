@@ -58,8 +58,8 @@ export class AuthService {
   async signIn(
     signinCredentialsDto: SignInCredentialsDto,
   ): Promise<{ accessToken: string }> {
-    const { username, password } = signinCredentialsDto;
-    const user = await this.userRepository.findOne({ where: { username } });
+    const { email, password } = signinCredentialsDto;
+    const user = await this.userRepository.findOne({ where: { email } });
 
     if (user && (await bcrypt.compare(password, user.password))) {
       const accessToken: string = await this.createToken(user);
