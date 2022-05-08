@@ -16,6 +16,7 @@ import { JwtService } from '@nestjs/jwt';
 import { SignUpCredentialsDto } from './dto/signup.dto';
 import { SignInCredentialsDto } from './dto/signin.dto';
 import { UpdateCredentialDto } from './dto/update-user.dto';
+import { RefreshTokenDto } from './dto/refresh-token.dto';
 
 @Injectable()
 export class AuthService {
@@ -69,6 +70,11 @@ export class AuthService {
     }
   }
 
+  async refreshToken(refreshTokenDto: RefreshTokenDto) {
+    const accessToken: string = await this.createToken(refreshTokenDto as User);
+    return { accessToken };
+  }
+
   async updateUser(updateCredentialDto: UpdateCredentialDto, user: User) {
     // await this.getUser(user);
 
@@ -93,6 +99,7 @@ export class AuthService {
   /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ create JWT ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
   private async createToken(user: User): Promise<string> {
     const payload: JwtPayload = {
+      id: user.id,
       username: user.username,
       email: user.email,
       role: user.role,
