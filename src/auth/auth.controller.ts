@@ -6,6 +6,7 @@ import { SignInCredentialsDto } from './dto/signin.dto';
 import { SignUpCredentialsDto } from './dto/signup.dto';
 
 @Controller('auth')
+@UseGuards()
 export class AuthController {
   constructor(private authService: AuthService) {}
 
