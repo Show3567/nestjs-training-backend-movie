@@ -25,7 +25,7 @@ export class AuthController {
   }
 
   @Post('/refresh-token')
-  @UseGuards(AuthGuard('refreshToken'))
+  // @UseGuards(AuthGuard('refreshToken'))
   // token in header ---> { "Authorization": `Bearer ${token}` }
   refreshToken(@Body() refreshTokenDto: RefreshTokenDto) {
     return this.authService.refreshToken(refreshTokenDto);
