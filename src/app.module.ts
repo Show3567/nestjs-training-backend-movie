@@ -2,10 +2,11 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { configValidationSchema } from './config/config.schema';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
-import { configValidationSchema } from './config/config.schema';
+import { AuthCModule } from './auth-c/auth-c.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { configValidationSchema } from './config/config.schema';
       }),
     }),
     AuthModule,
+    AuthCModule,
   ],
   controllers: [AppController],
   providers: [AppService],

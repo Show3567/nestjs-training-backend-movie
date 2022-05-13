@@ -28,7 +28,7 @@ export class AuthService {
   async signUp(
     signupCredentialsDto: SignUpCredentialsDto,
   ): Promise<{ accessToken: string }> {
-    const { username, password, email, tmdb_key } = signupCredentialsDto;
+    const { username, password, email, tmdb_key, role } = signupCredentialsDto;
 
     const salt = await bcrypt.genSalt(); // hash the password;
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -38,7 +38,7 @@ export class AuthService {
       password: hashedPassword,
       email,
       tmdb_key,
-      role: UserRole.USER,
+      role: role ? UserRole[role] : UserRole.USER,
     }); // create user;
     try {
       const thisuser = await this.userRepository.save(user); // post user to database;
@@ -61,6 +61,8 @@ export class AuthService {
   ): Promise<{ accessToken: string }> {
     const { email, password } = signinCredentialsDto;
     const user = await this.userRepository.findOne({ where: { email } });
+
+    console.log(user);
 
     if (user && (await bcrypt.compare(password, user.password))) {
       const accessToken: string = await this.createToken(user);
