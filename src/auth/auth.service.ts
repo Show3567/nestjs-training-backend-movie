@@ -62,7 +62,7 @@ export class AuthService {
     const { email, password } = signinCredentialsDto;
     const user = await this.userRepository.findOne({ where: { email } });
 
-    console.log(user);
+    // console.log(user);
 
     if (user && (await bcrypt.compare(password, user.password))) {
       const accessToken: string = await this.createToken(user);
