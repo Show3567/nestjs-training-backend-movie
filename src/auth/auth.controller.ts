@@ -1,5 +1,6 @@
 import { Body, Controller, Patch, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { GetUser } from './decorators/get-user.decorator';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
@@ -8,6 +9,7 @@ import { SignUpCredentialsDto } from './dto/signup.dto';
 import { UpdateCredentialDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 
+@ApiTags('auth')
 @Controller('auth')
 @UseGuards()
 export class AuthController {
@@ -20,6 +22,7 @@ export class AuthController {
     return this.authService.signUp(signupCredentialsDto);
   }
 
+  @ApiForbiddenResponse({ description: 'not authorized' })
   @Post('/signin')
   signIn(
     @Body() signinCredentialsDto: SignInCredentialsDto,

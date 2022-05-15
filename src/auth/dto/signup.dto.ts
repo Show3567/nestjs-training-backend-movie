@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
   IsEmail,
   IsEnum,
@@ -10,11 +11,15 @@ import {
 import { UserRole } from '../enums/user-role.enum';
 
 export class SignUpCredentialsDto {
+  @ApiProperty({
+    description: 'show username in the header or nav after user signin',
+  })
   @IsString()
   @MinLength(4)
   @MaxLength(10)
   readonly username: string;
 
+  @ApiProperty()
   @IsString()
   @MinLength(4)
   @MaxLength(10)
@@ -23,14 +28,17 @@ export class SignUpCredentialsDto {
   })
   readonly password: string;
 
+  @ApiProperty()
   @IsString()
   @IsEmail()
   readonly email: string;
 
+  @ApiProperty()
   @IsOptional()
   @IsEnum(UserRole)
   readonly role: string;
 
+  @ApiProperty()
   @IsString()
   @MinLength(15)
   tmdb_key: string;

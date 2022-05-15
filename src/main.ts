@@ -3,6 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import { Logger } from '@nestjs/common';
 import { AppModule } from './app.module';
 import * as CookieParser from 'cookie-parser';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const logger = new Logger();
@@ -23,6 +24,17 @@ async function bootstrap() {
       },
     }),
   );
+
+  /* for swagger documentation */
+  const options = new DocumentBuilder()
+    .setTitle('MoviesBackEnd')
+    .setDescription(
+      'This backend for myMovie web project for Angular Training~',
+    )
+    .setVersion('1.0')
+    .build();
+  const document = SwaggerModule.createDocument(app, options);
+  SwaggerModule.setup('api', app, document);
 
   const port = 4231;
   await app.listen(port);
@@ -46,6 +58,11 @@ bootstrap();
 
     Swagger:
     npm i @nestjs/swagger swagger-ui-express
+    --------------add to nest-cli.json--------------------------
+        "compilerOptions": {
+            "deleteOutDir": true,
+            "plugins": ["@nestjs/swagger/plugin"]
+        }
     
     Config: 
     npm i @nestjs/config
