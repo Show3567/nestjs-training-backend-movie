@@ -78,10 +78,13 @@ bootstrap();
 
     Mongodb:
     npm i @nestjs/mongoose mongoose
+    mongodb cloud username: antraAngular, password: jVoARhjqNU6GtZQG
+    mongodb+srv://antraAngular:jVoARhjqNU6GtZQG@cluster0.uqd3b.mongodb.net/test
 
     Deploy: --> Herohu
     `npm i -g heroku`
     `heroku login`
     `heroku addons:create heroku-postgresql:hobby-dev -a ${nestjs-training-backend-movie}`
     find the postgresql plugin --> settings --> view credential
+
 */
