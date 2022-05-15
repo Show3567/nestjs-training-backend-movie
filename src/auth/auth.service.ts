@@ -72,8 +72,8 @@ export class AuthService {
     }
   }
 
-  async refreshToken(refreshTokenDto: RefreshTokenDto) {
-    const accessToken: string = await this.createToken(refreshTokenDto as User);
+  refreshToken(refreshTokenDto: RefreshTokenDto) {
+    const accessToken: string = this.createToken(refreshTokenDto as User);
     return { accessToken };
   }
 
@@ -85,8 +85,8 @@ export class AuthService {
       ...updateCredentialDto,
       role: UserRole[role],
     });
-
-    return updatedUser;
+    const accessToken: string = this.createToken(user);
+    return { accessToken };
   }
 
   async getUser(user: User): Promise<User> {
@@ -99,7 +99,7 @@ export class AuthService {
   }
 
   /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ create JWT ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-  private async createToken(user: User): Promise<string> {
+  private createToken(user: User) {
     const payload: JwtPayload = {
       id: user.id,
       username: user.username,
@@ -108,19 +108,19 @@ export class AuthService {
       tmdb_key: user.tmdb_key,
     };
     /* 
-        create the jwt during signUp --> jwt hold the {username} now;
+        create the jwt during signUp --> jwt hold the {email} now;
         
         when send request to server --> jwt strategy will validate the jwt, 
 
-        the validate can get the payload in the jwt, in this case --> {username}
-        base on the username, validate fn can find the user from the repository;
+        the validate can get the payload in the jwt, in this case --> {email}
+        base on the email, validate fn can find the user from the repository;
         then return ---> user
 
         the getUser decorator can get the user after it from the jwtstrategy --> req.user
 
         in the task request, it can get this user too!
     */
-    const accessToken: string = await this.jwtService.sign(payload);
+    const accessToken: string = this.jwtService.sign(payload);
     return accessToken;
   }
 }

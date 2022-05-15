@@ -9,7 +9,7 @@ import { JwtPayload } from '../interfaces/jwt-payload.interface';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy, 'refreshToken') {
+export class JwtStrategy extends PassportStrategy(Strategy, 'token') {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
@@ -24,10 +24,12 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'refreshToken') {
 
   async validate(payload: JwtPayload): Promise<User> {
     // validate help to return the user;
-    const { username } = payload;
+    const { email } = payload;
+    console.log('email in strategy: ', email);
     const user: User = await this.userRepository.findOne({
-      where: { username },
+      where: { email },
     });
+    console.log('user in strategy: ', user);
 
     if (!user) {
       throw new UnauthorizedException();
