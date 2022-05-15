@@ -17,17 +17,27 @@ import { AuthCModule } from './auth-c/auth-c.module';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => ({
-        type: 'postgres',
-        autoLoadEntities: true,
-        synchronize: true,
+      useFactory: async (configService: ConfigService) => {
+        return {
+          type: 'mongodb',
+          url: configService.get('MODB_URL'),
+          useUnifiedTopology: true,
+          useNewUrlParser: true,
+          autoLoadEntities: true,
+          synchronize: true,
+        };
 
-        host: configService.get('DB_HOST'),
-        port: configService.get('DB_PORT'),
-        username: configService.get('DB_USER'),
-        password: configService.get('DB_PASSWORD'),
-        database: configService.get('DB_NAME'),
-      }),
+        // return {
+        //   type: 'postgres',
+        //   autoLoadEntities: true,
+        //   synchronize: true,
+        //   host: configService.get('DB_HOST'),
+        //   port: configService.get('DB_PORT'),
+        //   username: configService.get('DB_USER'),
+        //   password: configService.get('DB_PASSWORD'),
+        //   database: configService.get('DB_NAME'),
+        // };
+      },
     }),
     AuthModule,
     AuthCModule,

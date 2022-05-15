@@ -76,6 +76,9 @@ bootstrap();
     Cookie-parser
     npm i cookie-parser
 
+    Mongodb:
+    npm i @nestjs/mongoose mongoose
+
     Deploy: --> Herohu
     `npm i -g heroku`
     `heroku login`
