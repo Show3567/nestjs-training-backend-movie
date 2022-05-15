@@ -6,13 +6,13 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { JwtService } from '@nestjs/jwt';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
 import { User } from './entities/user.entity';
 import { UserRole } from './enums/user-role.enum';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
-import { JwtService } from '@nestjs/jwt';
 import { SignUpCredentialsDto } from './dto/signup.dto';
 import { SignInCredentialsDto } from './dto/signin.dto';
 import { UpdateCredentialDto } from './dto/update-user.dto';
@@ -40,15 +40,17 @@ export class AuthService {
       tmdb_key,
       role: role ? UserRole[role] : UserRole.USER,
     }); // create user;
+
     try {
-      const thisuser = await this.userRepository.save(user); // post user to database;
       const accessToken: string = await this.createToken(user); // return Token;
+      const thisuser = await this.userRepository.save(user); // post user to database;
 
       return { accessToken };
     } catch (error) {
-      if (error.code === '23505') {
-        // 23505 --> duplicate username
-
+      console.log(error);
+      if (error.code === '11000') {
+        // 23505 --> duplicate username // for postgresql
+        // 11000 --> duplicate username // for mongodb
         throw new ConflictException('Username already exists');
       } else {
         throw new InternalServerErrorException();
@@ -62,7 +64,7 @@ export class AuthService {
     const { email, password } = signinCredentialsDto;
     const user = await this.userRepository.findOne({ where: { email } });
 
-    // console.log(user);
+    console.log(user);
 
     if (user && (await bcrypt.compare(password, user.password))) {
       const accessToken: string = await this.createToken(user);
