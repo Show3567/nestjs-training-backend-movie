@@ -75,4 +75,10 @@ bootstrap();
 
     Cookie-parser
     npm i cookie-parser
+
+    Deploy: --> Herohu
+    `npm i -g heroku`
+    `heroku login`
+    `heroku addons:create heroku-postgresql:hobby-dev -a ${nestjs-training-backend-movie}`
+    find the postgresql plugin --> settings --> view credential
 */
