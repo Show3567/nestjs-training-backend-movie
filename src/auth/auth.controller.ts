@@ -38,7 +38,9 @@ export class AuthController {
   }
 
   @Post('/chech-email')
-  checkEmail(@Body() checkEmailDto: CheckEmailDto) {}
+  checkEmail(@Body() checkEmailDto: CheckEmailDto) {
+    return this.authService.checkEmail(checkEmailDto);
+  }
 
   @Patch('/userupdate')
   @UseGuards(AuthGuard('token'))

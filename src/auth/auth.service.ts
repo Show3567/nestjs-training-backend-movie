@@ -17,6 +17,7 @@ import { SignUpCredentialsDto } from './dto/signup.dto';
 import { SignInCredentialsDto } from './dto/signin.dto';
 import { UpdateCredentialDto } from './dto/update-user.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
+import { CheckEmailDto } from './dto/check-email.dto';
 
 @Injectable()
 export class AuthService {
@@ -25,21 +26,24 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
+  /* SignUp @Post */
   async signUp(
     signupCredentialsDto: SignUpCredentialsDto,
   ): Promise<{ accessToken: string }> {
     const { username, password, email, tmdb_key, role } = signupCredentialsDto;
 
-    const salt = await bcrypt.genSalt(); // hash the password;
+    // hash the password;
+    const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(password, salt);
 
+    // create user;
     const user = this.userRepository.create({
       username,
       password: hashedPassword,
       email,
       tmdb_key,
       role: role ? UserRole[role] : UserRole.USER,
-    }); // create user;
+    });
 
     try {
       const accessToken: string = await this.createToken(user); // return Token;
@@ -58,6 +62,7 @@ export class AuthService {
     }
   }
 
+  /* SignIn @Post */
   async signIn(
     signinCredentialsDto: SignInCredentialsDto,
   ): Promise<{ accessToken: string }> {
@@ -74,14 +79,19 @@ export class AuthService {
     }
   }
 
+  /* Refresh Token @Post */
   refreshToken(refreshTokenDto: RefreshTokenDto) {
     const accessToken: string = this.createToken(refreshTokenDto as User);
     return { accessToken };
   }
 
-  async updateUser(updateCredentialDto: UpdateCredentialDto, user: User) {
-    // await this.getUser(user);
+  async checkEmail({ email }: CheckEmailDto): Promise<boolean> {
+    const user = await this.userRepository.findOne({ where: { email } });
+    return user ? true : false;
+  }
 
+  /* Update User Info @Patch */
+  async updateUser(updateCredentialDto: UpdateCredentialDto, user: User) {
     const { role } = updateCredentialDto;
     const updatedUser = await this.userRepository.update(user.id, {
       ...updateCredentialDto,
@@ -109,20 +119,22 @@ export class AuthService {
       role: user.role,
       tmdb_key: user.tmdb_key,
     };
-    /* 
-        create the jwt during signUp --> jwt hold the {email} now;
-        
-        when send request to server --> jwt strategy will validate the jwt, 
 
-        the validate can get the payload in the jwt, in this case --> {email}
-        base on the email, validate fn can find the user from the repository;
-        then return ---> user
-
-        the getUser decorator can get the user after it from the jwtstrategy --> req.user
-
-        in the task request, it can get this user too!
-    */
     const accessToken: string = this.jwtService.sign(payload);
     return accessToken;
   }
 }
+
+/* 
+    create the jwt during signUp --> jwt hold the {email} now;
+    
+    when send request to server --> jwt strategy will validate the jwt, 
+
+    the validate can get the payload in the jwt, in this case --> {email}
+    base on the email, validate fn can find the user from the repository;
+    then return ---> user
+
+    the getUser decorator can get the user after it from the jwtstrategy --> req.user
+
+    in the task request, it can get this user too!
+*/
