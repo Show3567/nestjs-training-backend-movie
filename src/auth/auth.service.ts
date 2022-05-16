@@ -93,11 +93,14 @@ export class AuthService {
   /* Update User Info @Patch */
   async updateUser(updateCredentialDto: UpdateCredentialDto, user: User) {
     const { role } = updateCredentialDto;
-    const updatedUser = await this.userRepository.update(user.id, {
+    await this.userRepository.update(user.id, {
       ...updateCredentialDto,
       role: UserRole[role],
     });
-    const accessToken: string = this.createToken(user);
+    const updatedUser = await this.userRepository.findOne({
+      where: { id: user.id },
+    });
+    const accessToken: string = this.createToken(updatedUser);
     return { accessToken };
   }
 
