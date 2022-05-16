@@ -9,7 +9,7 @@ import { JwtPayload } from 'src/auth/interfaces/jwt-payload.interface';
 import { Repository } from 'typeorm';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy, 'token-c') {
+export class JwtCStrategy extends PassportStrategy(Strategy, 'token-c') {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
