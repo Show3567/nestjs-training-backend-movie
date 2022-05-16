@@ -12,9 +12,14 @@ import { User } from './entities/user.entity';
 
 @ApiTags('auth')
 @Controller('auth')
-@UseGuards()
+// @UseGuards()
 export class AuthController {
   constructor(private authService: AuthService) {}
+
+  //   @Get()
+  //   test() {
+  //     console.log('hello world!');
+  //   }
 
   @Post('/signup')
   signUp(
@@ -37,7 +42,7 @@ export class AuthController {
     return this.authService.refreshToken(refreshTokenDto);
   }
 
-  @Post('/chech-email')
+  @Post('/check-email')
   checkEmail(@Body() checkEmailDto: CheckEmailDto) {
     return this.authService.checkEmail(checkEmailDto);
   }
