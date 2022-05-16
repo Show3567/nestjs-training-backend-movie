@@ -9,6 +9,7 @@ import { SignUpCredentialsDto } from 'src/auth/dto/signup.dto';
 import { User } from 'src/auth/entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import * as cookieParser from 'cookie-parser';
 import { UserRole } from 'src/auth/enums/user-role.enum';
 import { JwtPayload } from 'src/auth/interfaces/jwt-payload.interface';
 
