@@ -3,6 +3,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { GetUser } from './decorators/get-user.decorator';
+import { CheckEmailDto } from './dto/check-email.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { SignInCredentialsDto } from './dto/signin.dto';
 import { SignUpCredentialsDto } from './dto/signup.dto';
@@ -35,6 +36,9 @@ export class AuthController {
   refreshToken(@Body() refreshTokenDto: RefreshTokenDto) {
     return this.authService.refreshToken(refreshTokenDto);
   }
+
+  @Post('/chech-email')
+  checkEmail(@Body() checkEmailDto: CheckEmailDto) {}
 
   @Patch('/userupdate')
   @UseGuards(AuthGuard('token'))
