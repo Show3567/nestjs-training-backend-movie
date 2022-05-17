@@ -8,6 +8,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { SignUpCredentialsDto } from 'src/auth/dto/signup.dto';
 import { User } from 'src/auth/entities/user.entity';
 import { Repository } from 'typeorm';
+import { Response } from 'express';
 import * as bcrypt from 'bcrypt';
 import * as cookieParser from 'cookie-parser';
 import { UserRole } from 'src/auth/enums/user-role.enum';
@@ -23,7 +24,8 @@ export class AuthCService {
   /* SignUp @Post */
   async signUp(
     signupCredentialsDto: SignUpCredentialsDto,
-  ): Promise<{ accessToken: string }> {
+    res: Response,
+  ): Promise<User> {
     const { username, password, email, tmdb_key, role } = signupCredentialsDto;
 
     // hash the password;
@@ -41,9 +43,16 @@ export class AuthCService {
 
     try {
       const accessToken: string = await this.createToken(user); // return Token;
-      const thisuser = await this.userRepository.save(user); // post user to database;
+      await this.userRepository.save(user); // post user to database;
 
-      return { accessToken };
+      /* add jwt to cookie */
+      const secretData = {
+        accessToken,
+        refreshToken: '',
+      };
+      res.cookie('auth-cookie', secretData, { httpOnly: true });
+
+      return user;
     } catch (error) {
       console.log(error);
       if (error.code === '11000') {

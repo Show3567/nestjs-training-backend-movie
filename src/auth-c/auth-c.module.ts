@@ -11,7 +11,7 @@ import { JwtCStrategy } from './strategies/jwt-c.strategy';
 @Module({
   imports: [
     ConfigModule,
-    PassportModule.register({ defaultStrategy: 'jwt' }), // jwt <----
+    PassportModule.register({ defaultStrategy: 'jwt-c', session: false }), // jwt <----
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
