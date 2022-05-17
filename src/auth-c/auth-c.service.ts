@@ -2,6 +2,7 @@ import {
   ConflictException,
   Injectable,
   InternalServerErrorException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -13,6 +14,7 @@ import * as bcrypt from 'bcrypt';
 import * as cookieParser from 'cookie-parser';
 import { UserRole } from 'src/auth/enums/user-role.enum';
 import { JwtPayload } from 'src/auth/interfaces/jwt-payload.interface';
+import { SignInCredentialsDto } from 'src/auth/dto/signin.dto';
 
 @Injectable()
 export class AuthCService {
@@ -42,15 +44,8 @@ export class AuthCService {
     });
 
     try {
-      const accessToken: string = await this.createToken(user); // return Token;
+      this.createToken(user, res); // return Token;
       await this.userRepository.save(user); // post user to database;
-
-      /* add jwt to cookie */
-      const secretData = {
-        accessToken,
-        refreshToken: '',
-      };
-      res.cookie('auth-cookie', secretData, { httpOnly: true });
 
       return user;
     } catch (error) {
@@ -65,22 +60,21 @@ export class AuthCService {
     }
   }
 
-  //   /* SignIn @Post */
-  //   async signIn(
-  //     signinCredentialsDto: SignInCredentialsDto,
-  //   ): Promise<{ accessToken: string }> {
-  //     const { email, password } = signinCredentialsDto;
-  //     const user = await this.userRepository.findOne({ where: { email } });
+  /* SignIn @Post */
+  async signIn(
+    signinCredentialsDto: SignInCredentialsDto,
+    res: Response,
+  ): Promise<User> {
+    const { email, password } = signinCredentialsDto;
+    const user = await this.userRepository.findOne({ where: { email } });
 
-  //     console.log(user);
-
-  //     if (user && (await bcrypt.compare(password, user.password))) {
-  //       const accessToken: string = await this.createToken(user);
-  //       return { accessToken };
-  //     } else {
-  //       throw new UnauthorizedException('Please check your login credentials');
-  //     }
-  //   }
+    if (user && (await bcrypt.compare(password, user.password))) {
+      this.createToken(user, res);
+      return user;
+    } else {
+      throw new UnauthorizedException('Please check your login credentials');
+    }
+  }
 
   //   /* Refresh Token @Post */
   //   refreshToken(refreshTokenDto: RefreshTokenDto) {
@@ -113,8 +107,8 @@ export class AuthCService {
   //     return user;
   //   }
 
-  /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ create JWT ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-  private createToken(user: User) {
+  /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ create JWT to cookie~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+  private createToken(user: User, res: Response) {
     const payload: JwtPayload = {
       id: user.id,
       username: user.username,
@@ -122,8 +116,10 @@ export class AuthCService {
       role: user.role,
       tmdb_key: user.tmdb_key,
     };
-
-    const accessToken: string = this.jwtService.sign(payload);
-    return accessToken;
+    const secretData = {
+      accessToken: this.jwtService.sign(payload),
+      refreshToken: '',
+    };
+    res.cookie('auth-cookie', secretData, { httpOnly: true });
   }
 }

@@ -3,6 +3,8 @@ import { SignUpCredentialsDto } from 'src/auth/dto/signup.dto';
 import { AuthCService } from './auth-c.service';
 import { User } from '../auth/entities/user.entity';
 import { Response } from 'express';
+import { ApiForbiddenResponse } from '@nestjs/swagger';
+import { SignInCredentialsDto } from 'src/auth/dto/signin.dto';
 @Controller('auth-c')
 export class AuthCController {
   constructor(private authService: AuthCService) {}
@@ -10,19 +12,19 @@ export class AuthCController {
   @Post('/signup')
   signUp(
     @Body() signupCredentialsDto: SignUpCredentialsDto,
-    @Req() req,
     @Res({ passthrough: true }) res: Response,
   ): Promise<User> {
     return this.authService.signUp(signupCredentialsDto, res);
   }
 
-  // @ApiForbiddenResponse({ description: 'not authorized' })
-  // @Post('/signin')
-  // signIn(
-  //   @Body() signinCredentialsDto: SignInCredentialsDto,
-  // ): Promise<{ accessToken: string }> {
-  //   return this.authService.signIn(signinCredentialsDto);
-  // }
+  @ApiForbiddenResponse({ description: 'not authorized' })
+  @Post('/signin')
+  signIn(
+    @Body() signinCredentialsDto: SignInCredentialsDto,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    return this.authService.signIn(signinCredentialsDto, res);
+  }
 
   // @Post('/refresh-token')
   // // token in header ---> { "Authorization": `Bearer ${token}` }
