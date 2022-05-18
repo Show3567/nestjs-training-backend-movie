@@ -21,7 +21,7 @@ export class JwtCStrategy extends PassportStrategy(Strategy, 'jwt-c') {
         (request: Request) => {
           const data = request?.cookies['auth-cookie'];
           return data ? data.token : null;
-        },
+        }, // test cookie in postman
       ]),
       ignoreExpiration: false,
     });
