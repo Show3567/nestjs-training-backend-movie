@@ -38,6 +38,9 @@ $ npm install
 # development && watch mode
 $ npm run start
 
+# document in Swagger
+$ localhost:4231/api
+
 # production mode
 $ npm run start:prod
 ```
