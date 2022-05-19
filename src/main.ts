@@ -75,6 +75,7 @@ bootstrap();
 
     Cookie-parser
     npm i cookie-parser
+    npm i -D @types/cookie-parser
 
     Mongodb:
     npm i @nestjs/mongoose mongoose

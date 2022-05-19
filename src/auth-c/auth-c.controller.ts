@@ -1,13 +1,21 @@
-import { Body, Controller, Post, Req, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
 import { SignUpCredentialsDto } from 'src/auth/dto/signup.dto';
 import { AuthCService } from './auth-c.service';
 import { User } from '../auth/entities/user.entity';
-import { Response } from 'express';
-import { ApiForbiddenResponse } from '@nestjs/swagger';
+import { Response, Request } from 'express';
+import { ApiForbiddenResponse, ApiTags } from '@nestjs/swagger';
 import { SignInCredentialsDto } from 'src/auth/dto/signin.dto';
+
+@ApiTags('auth-c')
 @Controller('auth-c')
 export class AuthCController {
   constructor(private authService: AuthCService) {}
+
+  @Get()
+  findAll(@Req() request: Request) {
+    console.log(request.cookies); // or "request.cookies['cookieKey']"
+    // or console.log(request.signedCookies);
+  }
 
   @Post('/signup')
   signUp(
