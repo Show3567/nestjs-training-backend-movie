@@ -44,15 +44,22 @@ export class AuthCService {
     });
 
     try {
-      this.createToken(user, res); // return Token;
+      this.createToken(user, res);
       await this.userRepository.save(user); // post user to database;
+      const userfromdb = await this.userRepository.findOne({
+        where: { email },
+      });
 
-      return user;
+      return {
+        id: userfromdb.id,
+        username: userfromdb.username,
+        email: userfromdb.email,
+        tmdb_key: userfromdb.tmdb_key,
+        role: userfromdb.role,
+      } as User;
     } catch (error) {
       console.log(error);
       if (error.code === '11000') {
-        // 23505 --> duplicate username // for postgresql
-        // 11000 --> duplicate username // for mongodb
         throw new ConflictException('Username already exists');
       } else {
         throw new InternalServerErrorException();
@@ -70,7 +77,13 @@ export class AuthCService {
 
     if (user && (await bcrypt.compare(password, user.password))) {
       this.createToken(user, res);
-      return user;
+      return {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        tmdb_key: user.tmdb_key,
+        role: user.role,
+      } as User;
     } else {
       throw new UnauthorizedException('Please check your login credentials');
     }
