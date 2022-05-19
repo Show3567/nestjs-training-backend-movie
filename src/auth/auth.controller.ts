@@ -1,14 +1,16 @@
 import { Body, Controller, Get, Patch, Post, UseGuards } from '@nestjs/common';
+import { ApiForbiddenResponse, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
+
 import { AuthService } from './auth.service';
+import { User } from './entities/user.entity';
 import { GetUser } from './decorators/get-user.decorator';
+
 import { CheckEmailDto } from './dto/check-email.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
+import { UpdateCredentialDto } from './dto/update-user.dto';
 import { SignInCredentialsDto } from './dto/signin.dto';
 import { SignUpCredentialsDto } from './dto/signup.dto';
-import { UpdateCredentialDto } from './dto/update-user.dto';
-import { User } from './entities/user.entity';
 
 @ApiTags('auth')
 @Controller('auth')

@@ -1,5 +1,4 @@
 import { IsEmail, IsEnum, IsOptional, IsString, IsUUID } from 'class-validator';
-import { isObjectIdOrHexString } from 'mongoose';
 import { UserRole } from '../enums/user-role.enum';
 
 export class RefreshTokenDto {
