@@ -19,6 +19,7 @@ import { SignInCredentialsDto } from './dto/signin.dto';
 import { UpdateCredentialDto } from './dto/update-user.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { CheckEmailDto } from './dto/check-email.dto';
+import { DeleteUserDto } from './dto/delete-user.dot';
 
 @Injectable()
 export class AuthService {
@@ -105,6 +106,13 @@ export class AuthService {
     const accessToken: string = this.createToken(updatedUser);
     return { accessToken };
   }
+
+  async deleteUser(deleteUserDto: DeleteUserDto, user: User) {
+    if (user.role !== UserRole.ADMIN) return;
+    const { email } = deleteUserDto;
+    const userfromdb = this.userRepository.delete({ email });
+    return userfromdb;
+  } /* testing */
 
   async getUser(user: User): Promise<User> {
     const existUser = await this.userRepository.findOne({

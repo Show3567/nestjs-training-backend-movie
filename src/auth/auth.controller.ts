@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Patch, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Patch,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiForbiddenResponse, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -11,6 +19,7 @@ import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { UpdateCredentialDto } from './dto/update-user.dto';
 import { SignInCredentialsDto } from './dto/signin.dto';
 import { SignUpCredentialsDto } from './dto/signup.dto';
+import { DeleteUserDto } from './dto/delete-user.dot';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -56,5 +65,11 @@ export class AuthController {
     @Body() updateCredentialDto: UpdateCredentialDto,
   ) {
     return this.authService.updateUser(updateCredentialDto, user);
+  }
+
+  @Delete('/deleteuser')
+  @UseGuards(AuthGuard('jwt'))
+  deleteUser(@GetUser() user: User, @Body() deleteUserDto: DeleteUserDto) {
+    return this.authService.deleteUser(deleteUserDto, user);
   }
 }
