@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Param,
   Patch,
   Post,
   UseGuards,
@@ -67,9 +68,15 @@ export class AuthController {
     return this.authService.updateUser(updateCredentialDto, user);
   }
 
-  @Delete('/deleteuser')
+  @Post('/deleteuser')
   @UseGuards(AuthGuard('jwt'))
-  deleteUser(@GetUser() user: User, @Body() deleteUserDto: DeleteUserDto) {
-    return this.authService.deleteUser(deleteUserDto, user);
+  deleteAnyUser(@GetUser() user: User, @Body() deleteUserDto: DeleteUserDto) {
+    return this.authService.deleteAnyUser(deleteUserDto, user);
+  }
+
+  @Delete('/:id')
+  @UseGuards(AuthGuard('jwt'))
+  deleteUserById(@GetUser() user: User, @Param('id') id: string) {
+    return this.authService.deleteUserById(user, id);
   }
 }

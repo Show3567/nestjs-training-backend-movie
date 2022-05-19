@@ -107,12 +107,35 @@ export class AuthService {
     return { accessToken };
   }
 
-  async deleteUser(deleteUserDto: DeleteUserDto, user: User) {
-    if (user.role !== UserRole.ADMIN) return;
+  /* Delete User @Post */
+  async deleteAnyUser(deleteUserDto: DeleteUserDto, user: User) {
+    if (user.role !== UserRole.ADMIN)
+      new UnauthorizedException(
+        `You don't have the permission to delete a user.`,
+      );
     const { email } = deleteUserDto;
-    const userfromdb = this.userRepository.delete({ email });
-    return userfromdb;
+    const userfromdb = await this.userRepository.findOne({ where: { email } });
+    if (!userfromdb) {
+      throw new NotFoundException(`User "${user.username}" not found!`);
+    }
+    await this.userRepository.delete({ email });
+
+    return { email };
   } /* testing */
+
+  /* Delete User @Delete  */
+  async deleteUserById(user: User, id: string) {
+    const userfromdb = await this.userRepository.findOne({ where: { id } });
+    if (!userfromdb) {
+      throw new NotFoundException(`User which ID is "${id}" not found!`);
+    }
+    if (user.role !== UserRole.ADMIN)
+      new UnauthorizedException(
+        `You don't have the permission to delete a user.`,
+      );
+    await this.userRepository.delete({ id });
+    return userfromdb;
+  }
 
   async getUser(user: User): Promise<User> {
     const existUser = await this.userRepository.findOne({
