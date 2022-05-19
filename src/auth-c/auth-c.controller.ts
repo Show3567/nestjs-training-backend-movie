@@ -19,6 +19,7 @@ import { GetUser } from 'src/auth/decorators/get-user.decorator';
 import { SignInCredentialsDto } from 'src/auth/dto/signin.dto';
 import { SignUpCredentialsDto } from 'src/auth/dto/signup.dto';
 import { UpdateCredentialDto } from 'src/auth/dto/update-user.dto';
+import { CheckEmailDto } from 'src/auth/dto/check-email.dto';
 
 @ApiTags('auth-c')
 @Controller('auth-c')
@@ -48,16 +49,19 @@ export class AuthCController {
     return this.authService.signIn(signinCredentialsDto, res);
   }
 
-  // @Post('/refresh-token')
-  // // token in header ---> { "Authorization": `Bearer ${token}` }
-  // refreshToken(@Body() refreshTokenDto: RefreshTokenDto) {
-  //   return this.authService.refreshToken(refreshTokenDto);
-  // }
+  @Get('/refresh-token')
+  @UseGuards(AuthGuard('jwt-c'))
+  refreshToken(
+    @GetUser() user: User,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    return this.authService.refreshToken(user, res);
+  }
 
-  // @Post('/check-email')
-  // checkEmail(@Body() checkEmailDto: CheckEmailDto) {
-  //   return this.authService.checkEmail(checkEmailDto);
-  // }
+  @Post('/check-email')
+  checkEmail(@Body() checkEmailDto: CheckEmailDto) {
+    return this.authService.checkEmail(checkEmailDto);
+  }
 
   @Patch('/userupdate')
   @UseGuards(AuthGuard('jwt-c'))

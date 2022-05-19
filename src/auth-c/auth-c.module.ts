@@ -19,7 +19,7 @@ import { JwtCStrategy } from './strategies/jwt-c.strategy';
       useFactory: async (configService: ConfigService) => ({
         secret: configService.get('JWT_SECRET'),
         signOptions: {
-          expiresIn: 1800,
+          expiresIn: configService.get('TOKEN_EXP'),
         },
       }),
     }),

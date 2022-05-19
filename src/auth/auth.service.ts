@@ -86,6 +86,7 @@ export class AuthService {
     return { accessToken };
   }
 
+  /* Check Uniq Email in DB */
   async checkEmail({ email }: CheckEmailDto): Promise<boolean> {
     const user = await this.userRepository.findOne({ where: { email } });
     return user ? true : false;

@@ -5,6 +5,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Response } from 'express';
@@ -16,12 +17,14 @@ import { JwtPayload } from 'src/auth/interfaces/jwt-payload.interface';
 import { SignUpCredentialsDto } from 'src/auth/dto/signup.dto';
 import { SignInCredentialsDto } from 'src/auth/dto/signin.dto';
 import { UpdateCredentialDto } from 'src/auth/dto/update-user.dto';
+import { CheckEmailDto } from 'src/auth/dto/check-email.dto';
 
 @Injectable()
 export class AuthCService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
     private readonly jwtService: JwtService,
+    private configService: ConfigService,
   ) {}
 
   /* SignUp @Post */
@@ -90,16 +93,16 @@ export class AuthCService {
     }
   }
 
-  //   /* Refresh Token @Post */
-  //   refreshToken(refreshTokenDto: RefreshTokenDto) {
-  //     const accessToken: string = this.createToken(refreshTokenDto as User);
-  //     return { accessToken };
-  //   }
+  /* Refresh Token @Get */
+  async refreshToken(user: User, res: Response) {
+    this.createToken(user, res);
+  }
 
-  //   async checkEmail({ email }: CheckEmailDto): Promise<boolean> {
-  //     const user = await this.userRepository.findOne({ where: { email } });
-  //     return user ? true : false;
-  //   }
+  /* Check Uniq Email in DB */
+  async checkEmail({ email }: CheckEmailDto): Promise<boolean> {
+    const user = await this.userRepository.findOne({ where: { email } });
+    return user ? true : false;
+  }
 
   /* Update User Info @Patch */
   async updateUser(
@@ -153,6 +156,9 @@ export class AuthCService {
       accessToken: this.jwtService.sign(payload),
       refreshToken: '',
     };
-    res.cookie('auth-cookie', secretData, { httpOnly: true });
+    res.cookie('auth-cookie', secretData, {
+      httpOnly: true,
+      maxAge: this.configService.get('TOKEN_EXP'),
+    });
   }
 }
