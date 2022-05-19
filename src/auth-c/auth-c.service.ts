@@ -6,14 +6,14 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
-import { SignUpCredentialsDto } from 'src/auth/dto/signup.dto';
-import { User } from 'src/auth/entities/user.entity';
 import { Repository } from 'typeorm';
 import { Response } from 'express';
 import * as bcrypt from 'bcrypt';
-import * as cookieParser from 'cookie-parser';
+
 import { UserRole } from 'src/auth/enums/user-role.enum';
+import { User } from 'src/auth/entities/user.entity';
 import { JwtPayload } from 'src/auth/interfaces/jwt-payload.interface';
+import { SignUpCredentialsDto } from 'src/auth/dto/signup.dto';
 import { SignInCredentialsDto } from 'src/auth/dto/signin.dto';
 import { UpdateCredentialDto } from 'src/auth/dto/update-user.dto';
 
