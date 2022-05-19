@@ -108,14 +108,18 @@ export class AuthCService {
     res: Response,
   ) {
     const { role } = updateCredentialDto;
-    await this.userRepository.update(user.id, {
-      ...updateCredentialDto,
-      role: UserRole[role],
-    });
+
+    await this.userRepository.update(
+      { email: user.email },
+      {
+        ...updateCredentialDto,
+        role: UserRole[role],
+      },
+    );
     this.createToken(user, res);
 
     const userfromdb = await this.userRepository.findOne({
-      where: { id: user.id },
+      where: { email: user.email },
     });
 
     return {
