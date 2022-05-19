@@ -15,6 +15,7 @@ import * as cookieParser from 'cookie-parser';
 import { UserRole } from 'src/auth/enums/user-role.enum';
 import { JwtPayload } from 'src/auth/interfaces/jwt-payload.interface';
 import { SignInCredentialsDto } from 'src/auth/dto/signin.dto';
+import { UpdateCredentialDto } from 'src/auth/dto/update-user.dto';
 
 @Injectable()
 export class AuthCService {
@@ -100,16 +101,31 @@ export class AuthCService {
   //     return user ? true : false;
   //   }
 
-  //   /* Update User Info @Patch */
-  //   async updateUser(updateCredentialDto: UpdateCredentialDto, user: User) {
-  //     const { role } = updateCredentialDto;
-  //     const updatedUser = await this.userRepository.update(user.id, {
-  //       ...updateCredentialDto,
-  //       role: UserRole[role],
-  //     });
-  //     const accessToken: string = this.createToken(user);
-  //     return { accessToken };
-  //   }
+  /* Update User Info @Patch */
+  async updateUser(
+    updateCredentialDto: UpdateCredentialDto,
+    user: User,
+    res: Response,
+  ) {
+    const { role } = updateCredentialDto;
+    await this.userRepository.update(user.id, {
+      ...updateCredentialDto,
+      role: UserRole[role],
+    });
+    this.createToken(user, res);
+
+    const userfromdb = await this.userRepository.findOne({
+      where: { id: user.id },
+    });
+
+    return {
+      id: userfromdb.id,
+      username: userfromdb.username,
+      email: userfromdb.email,
+      tmdb_key: userfromdb.tmdb_key,
+      role: userfromdb.role,
+    } as User;
+  }
 
   //   async getUser(user: User): Promise<User> {
   //     const existUser = await this.userRepository.findOne({

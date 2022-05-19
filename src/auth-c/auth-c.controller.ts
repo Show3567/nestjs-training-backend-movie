@@ -1,10 +1,24 @@
-import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
-import { SignUpCredentialsDto } from 'src/auth/dto/signup.dto';
+import {
+  Body,
+  Controller,
+  Get,
+  Patch,
+  Post,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { ApiForbiddenResponse, ApiTags } from '@nestjs/swagger';
+import { Response, Request } from 'express';
+
 import { AuthCService } from './auth-c.service';
 import { User } from '../auth/entities/user.entity';
-import { Response, Request } from 'express';
-import { ApiForbiddenResponse, ApiTags } from '@nestjs/swagger';
+import { GetUser } from 'src/auth/decorators/get-user.decorator';
+
 import { SignInCredentialsDto } from 'src/auth/dto/signin.dto';
+import { SignUpCredentialsDto } from 'src/auth/dto/signup.dto';
+import { UpdateCredentialDto } from 'src/auth/dto/update-user.dto';
 
 @ApiTags('auth-c')
 @Controller('auth-c')
@@ -45,12 +59,13 @@ export class AuthCController {
   //   return this.authService.checkEmail(checkEmailDto);
   // }
 
-  // @Patch('/userupdate')
-  // @UseGuards(AuthGuard('token'))
-  // updateUser(
-  //   @GetUser() user: User,
-  //   @Body() updateCredentialDto: UpdateCredentialDto,
-  // ) {
-  //   return this.authService.updateUser(updateCredentialDto, user);
-  // }
+  @Patch('/userupdate')
+  @UseGuards(AuthGuard('jwt-c'))
+  updateUser(
+    @GetUser() user: User,
+    @Body() updateCredentialDto: UpdateCredentialDto,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    return this.authService.updateUser(updateCredentialDto, user, res);
+  }
 }
