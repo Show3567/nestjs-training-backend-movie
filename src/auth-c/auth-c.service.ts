@@ -134,6 +134,11 @@ export class AuthCService {
     } as User;
   }
 
+  /* SignOut */
+  async signOut(res: Response) {
+    res.cookie('token', '', { expires: new Date() });
+  }
+
   //   async getUser(user: User): Promise<User> {
   //     const existUser = await this.userRepository.findOne({
   //       where: { user },
