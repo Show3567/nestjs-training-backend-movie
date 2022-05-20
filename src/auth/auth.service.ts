@@ -53,7 +53,6 @@ export class AuthService {
 
       return { accessToken };
     } catch (error) {
-      console.log(error);
       if (error.code === '11000') {
         // 23505 --> duplicate username // for postgresql
         // 11000 --> duplicate username // for mongodb
@@ -70,8 +69,6 @@ export class AuthService {
   ): Promise<{ accessToken: string }> {
     const { email, password } = signinCredentialsDto;
     const user = await this.userRepository.findOne({ where: { email } });
-
-    console.log(user);
 
     if (user && (await bcrypt.compare(password, user.password))) {
       const accessToken: string = await this.createToken(user);

@@ -62,7 +62,6 @@ export class AuthCService {
         role: userfromdb.role,
       } as User;
     } catch (error) {
-      console.log(error);
       if (error.code === '11000') {
         throw new ConflictException('Username already exists');
       } else {
