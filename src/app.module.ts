@@ -32,10 +32,12 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
         };
       },
     }),
-    /* apollo */
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      driver: ApolloDriver,
-    }),
+    // /* apollo */
+    // GraphQLModule.forRoot<ApolloDriverConfig>({
+    //   driver: ApolloDriver,
+    //   debug: false,
+    //   playground: false,
+    // }),
     AuthModule,
     AuthCModule,
   ],
