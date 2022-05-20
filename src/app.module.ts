@@ -7,13 +7,17 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { AuthCModule } from './auth-c/auth-c.module';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 
 @Module({
   imports: [
+    /* config */
     ConfigModule.forRoot({
       envFilePath: [`.env.stage.${process.env.STAGE}`],
       validationSchema: configValidationSchema,
     }),
+    /* typeorm */
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -26,18 +30,11 @@ import { AuthCModule } from './auth-c/auth-c.module';
           autoLoadEntities: true,
           synchronize: true,
         };
-
-        // return {
-        //   type: 'postgres',
-        //   autoLoadEntities: true,
-        //   synchronize: true,
-        //   host: configService.get('DB_HOST'),
-        //   port: configService.get('DB_PORT'),
-        //   username: configService.get('DB_USER'),
-        //   password: configService.get('DB_PASSWORD'),
-        //   database: configService.get('DB_NAME'),
-        // };
       },
+    }),
+    /* apollo */
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
     }),
     AuthModule,
     AuthCModule,
@@ -46,3 +43,16 @@ import { AuthCModule } from './auth-c/auth-c.module';
   providers: [AppService],
 })
 export class AppModule {}
+
+/* Connect to local postgres 
+    return {
+        type: 'postgres',
+        autoLoadEntities: true,
+        synchronize: true,
+        host: configService.get('DB_HOST'),
+        port: configService.get('DB_PORT'),
+        username: configService.get('DB_USER'),
+        password: configService.get('DB_PASSWORD'),
+        database: configService.get('DB_NAME'),
+    };
+*/

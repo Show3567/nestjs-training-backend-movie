@@ -45,20 +45,20 @@ bootstrap();
 
 /* 
     Typeorm:
-    npm i @nestjs/typeorm typeorm pg
+    $ npm i @nestjs/typeorm typeorm pg
 
     Class libs:
-    npm i class-validator class-transformer
+    $ npm i class-validator class-transformer
 
     Bcrypt:
-    npm i bcrypt
+    $ npm i bcrypt
 
     JWT:
-    npm i @nestjs/jwt @nestjs/passport passport passport-jwt
-    npm i @types/passport-jwt
+    $ npm i @nestjs/jwt @nestjs/passport passport passport-jwt
+    $ npm i @types/passport-jwt
 
     Swagger:
-    npm i @nestjs/swagger swagger-ui-express
+    $ npm i @nestjs/swagger swagger-ui-express
     --------------add to nest-cli.json--------------------------
         "compilerOptions": {
             "deleteOutDir": true,
@@ -66,27 +66,32 @@ bootstrap();
         }
     
     Config: 
-    npm i @nestjs/config
+    $ npm i @nestjs/config
     
     Joi varification: 
-    npm i @hapi/joi
+    $ npm i @hapi/joi
     
     Strong JWT secret: 
     https://passwordsgenerator.net/
 
     Cookie-parser
-    npm i cookie-parser
-    npm i -D @types/cookie-parser
+    $ npm i cookie-parser
+    $ npm i -D @types/cookie-parser
 
-    Mongodb:
-    npm i @nestjs/mongoose mongoose
+    Mongodb Online Database:
+    $ npm i @nestjs/mongoose mongoose
     mongodb cloud username: antraAngular, password: jVoARhjqNU6GtZQG
     mongodb+srv://antraAngular:jVoARhjqNU6GtZQG@cluster0.uqd3b.mongodb.net/test
+
+    Apollo Graphql:
+    $ npm i @nestjs/graphql @nestjs/apollo graphql apollo-server-express
+*/
+
+/* -Depreciate-
 
     Deploy: --> Herohu
     `npm i -g heroku`
     `heroku login`
     `heroku addons:create heroku-postgresql:hobby-dev -a ${nestjs-training-backend-movie}`
     find the postgresql plugin --> settings --> view credential
-
 */
