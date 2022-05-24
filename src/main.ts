@@ -85,6 +85,10 @@ bootstrap();
 
     Apollo Graphql:
     $ npm i @nestjs/graphql @nestjs/apollo graphql apollo-server-express
+
+    MicroServices
+    $ npm i --save @nestjs/microservices
+
 */
 
 /* -Depreciate-
