@@ -12,7 +12,8 @@ import { AuthCModule } from './auth-c/auth-c.module';
   imports: [
     /* config */
     ConfigModule.forRoot({
-      envFilePath: [`.env.stage.${process.env.STAGE}`],
+      //   envFilePath: [`.env.stage.${process.env.STAGE}`],
+      envFilePath: [`.env.stage.dev`],
       validationSchema: configValidationSchema,
     }),
     /* typeorm */

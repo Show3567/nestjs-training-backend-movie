@@ -60,7 +60,7 @@ export class AuthController {
   }
 
   @Patch('/userupdate')
-  @UseGuards(AuthGuard('jwt'))
+  //   @UseGuards(AuthGuard('jwt'))
   updateUser(
     @GetUser() user: User,
     @Body() updateCredentialDto: UpdateCredentialDto,
