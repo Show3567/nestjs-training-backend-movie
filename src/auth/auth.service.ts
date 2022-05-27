@@ -47,8 +47,10 @@ export class AuthService {
       role: role ? UserRole[role] : UserRole.USER,
     });
 
+    const userfromdb = await this.userRepository.findOne({ where: { email } });
+
     try {
-      const accessToken: string = await this.createToken(user); // return Token;
+      const accessToken: string = await this.createToken(userfromdb); // return Token;
       const thisuser = await this.userRepository.save(user); // post user to database;
 
       return { accessToken };
@@ -93,13 +95,20 @@ export class AuthService {
   /* Update User Info @Patch */
   async updateUser(updateCredentialDto: UpdateCredentialDto, user: User) {
     const { role } = updateCredentialDto;
-    await this.userRepository.update(user.id, {
-      ...updateCredentialDto,
-      role: UserRole[role],
-    });
+
+    const update = await this.userRepository.update(
+      { email: user.email },
+      {
+        ...updateCredentialDto,
+        role: UserRole[role],
+      },
+    );
+    console.log(update);
+
     const updatedUser = await this.userRepository.findOne({
-      where: { id: user.id },
+      where: { email: user.email },
     });
+    console.log(updatedUser);
     const accessToken: string = this.createToken(updatedUser);
     return { accessToken };
   }
@@ -146,7 +155,7 @@ export class AuthService {
   /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ create JWT ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
   private createToken(user: User) {
     const payload: JwtPayload = {
-      id: user.id,
+      id: user.id.toString(),
       username: user.username,
       email: user.email,
       role: user.role,
