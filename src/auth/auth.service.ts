@@ -44,14 +44,16 @@ export class AuthService {
       password: hashedPassword,
       email,
       tmdb_key,
-      role: role ? UserRole[role] : UserRole.USER,
+      role: UserRole[role] || UserRole.USER,
     });
 
-    const userfromdb = await this.userRepository.findOne({ where: { email } });
-
     try {
-      const accessToken: string = await this.createToken(userfromdb); // return Token;
       const thisuser = await this.userRepository.save(user); // post user to database;
+      const userfromdb = await this.userRepository.findOne({
+        where: { email },
+      });
+
+      const accessToken: string = await this.createToken(userfromdb); // return Token;
 
       return { accessToken };
     } catch (error) {
