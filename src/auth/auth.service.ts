@@ -103,12 +103,10 @@ export class AuthService {
         role: UserRole[role],
       },
     );
-    console.log(update);
 
     const updatedUser = await this.userRepository.findOne({
       where: { email: user.email },
     });
-    console.log(updatedUser);
     const accessToken: string = this.createToken(updatedUser);
     return { accessToken };
   }
