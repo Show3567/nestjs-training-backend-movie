@@ -60,10 +60,10 @@ bootstrap();
     Swagger:
     $ npm i @nestjs/swagger swagger-ui-express
     --------------add to nest-cli.json--------------------------
-        "compilerOptions": {
-            "deleteOutDir": true,
-            "plugins": ["@nestjs/swagger/plugin"]
-        }
+    +   "compilerOptions": {
+    +       "deleteOutDir": true,
+    +       "plugins": ["@nestjs/swagger/plugin"]
+    +   }
     
     Config: 
     $ npm i @nestjs/config
