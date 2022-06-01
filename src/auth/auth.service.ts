@@ -75,7 +75,7 @@ export class AuthService {
     const user = await this.userRepository.findOne({ where: { email } });
 
     if (user && (await bcrypt.compare(password, user.password))) {
-      const accessToken: string = await this.createToken(user);
+      const accessToken: string = this.createToken(user);
       return { accessToken };
     } else {
       throw new UnauthorizedException('Please check your login credentials');
