@@ -160,7 +160,7 @@ export class AuthCService {
       accessToken: this.jwtService.sign(payload),
       refreshToken: '',
     };
-    res.cookie('auth-cookie', secretData, {
+    res.cookie('accessToken', secretData, {
       httpOnly: true,
       maxAge: this.configService.get('TOKEN_EXP'),
     });

@@ -20,7 +20,7 @@ export class JwtCStrategy extends PassportStrategy(Strategy, 'jwt-c') {
       secretOrKey: configService.get('JWT_SECRET'),
       jwtFromRequest: ExtractJwt.fromExtractors([
         (request: Request) => {
-          const data = request?.cookies['auth-cookie'];
+          const data = request?.cookies['accessToken'];
           return data ? data.accessToken : null;
         },
       ]),
