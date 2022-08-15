@@ -21,11 +21,11 @@ export class SignUpCredentialsDto {
 
   @ApiProperty()
   @IsString()
-  @MinLength(4)
-  @MaxLength(10)
-  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
-    message: 'password is too week!',
-  })
+  // @MinLength(4)
+  // @MaxLength(10)
+  // @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
+  //   message: 'password is too week!',
+  // })
   readonly password: string;
 
   @ApiProperty()
