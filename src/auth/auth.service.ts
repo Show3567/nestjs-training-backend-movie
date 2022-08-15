@@ -32,23 +32,24 @@ export class AuthService {
   async signUp(
     signupCredentialsDto: SignUpCredentialsDto,
   ): Promise<{ accessToken: string }> {
-    const { username, password, email, tmdb_key, role } = signupCredentialsDto;
-
-    // hash the password;
-    const salt = await bcrypt.genSalt();
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    // create user;
-    const user = this.userRepository.create({
-      username,
-      password: hashedPassword,
-      email,
-      tmdb_key,
-      role: UserRole[role] || UserRole.USER,
-    });
-
     try {
-      const thisuser = await this.userRepository.save(user); // post user to database;
+      const { username, password, email, tmdb_key, role } =
+        signupCredentialsDto;
+
+      // hash the password;
+      const salt = await bcrypt.genSalt();
+      const hashedPassword = await bcrypt.hash(password, salt);
+
+      // create user;
+      const user = this.userRepository.create({
+        username,
+        password: hashedPassword,
+        email,
+        tmdb_key,
+        role: UserRole[role] || UserRole.USER,
+      });
+
+      await this.userRepository.save(user); // post user to database;
       const userfromdb = await this.userRepository.findOne({
         where: { email },
       });
