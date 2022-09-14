@@ -33,7 +33,7 @@ async function bootstrap() {
     .setDescription(
       'This backend for myMovie web project for Angular Training~',
     )
-    .setVersion('1.0')
+    .setVersion('2.0')
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);
