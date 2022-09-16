@@ -31,12 +31,6 @@ import { AuthCModule } from './auth-cookies/auth-c.module';
         };
       },
     }),
-    // /* apollo */
-    // GraphQLModule.forRoot<ApolloDriverConfig>({
-    //   driver: ApolloDriver,
-    //   debug: false,
-    //   playground: false,
-    // }),
     AuthModule,
     AuthCModule,
   ],
