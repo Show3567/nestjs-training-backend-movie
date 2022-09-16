@@ -6,7 +6,7 @@ import { configValidationSchema } from './config/config.schema';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
-import { AuthCModule } from './auth-c/auth-c.module';
+import { AuthCModule } from './auth-cookies/auth-c.module';
 
 @Module({
   imports: [
