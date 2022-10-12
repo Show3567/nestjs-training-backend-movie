@@ -87,9 +87,8 @@ export class AuthService {
   /* Refresh Token @Post */
   async refreshToken(refreshTokenDto: RefreshTokenDto) {
     const { email, id } = refreshTokenDto;
-    // const objId = new mongoose.Types.ObjectId(id);
-    // console.log(typeof objId);
-    const user = await this.userRepository.findOne({ where: { id } });
+    const user = await this.userRepository.findOne({ email });
+
     if (user) {
       const accessToken: string = this.createToken(user);
       return { accessToken };
