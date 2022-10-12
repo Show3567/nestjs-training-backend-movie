@@ -20,6 +20,7 @@ import { UpdateCredentialDto } from './dto/update-user.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { CheckEmailDto } from './dto/check-email.dto';
 import { DeleteUserDto } from './dto/delete-user.dot';
+import mongoose from 'mongoose';
 
 @Injectable()
 export class AuthService {
@@ -85,8 +86,10 @@ export class AuthService {
 
   /* Refresh Token @Post */
   async refreshToken(refreshTokenDto: RefreshTokenDto) {
-    const { email, id: _id } = refreshTokenDto;
-    const user = await this.userRepository.findOne({ where: { email } });
+    const { email, id } = refreshTokenDto;
+    // const objId = new mongoose.Types.ObjectId(id);
+    // console.log(typeof objId);
+    const user = await this.userRepository.findOne({ where: { id } });
     if (user) {
       const accessToken: string = this.createToken(user);
       return { accessToken };

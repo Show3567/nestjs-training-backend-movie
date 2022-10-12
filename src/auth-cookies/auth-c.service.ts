@@ -151,7 +151,7 @@ export class AuthCService {
   /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ create JWT to cookie~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
   private createToken(user: User, res: Response) {
     const payload: JwtPayload = {
-      id: user.id,
+      id: user.id.toString(),
       username: user.username,
       email: user.email,
       role: user.role,
