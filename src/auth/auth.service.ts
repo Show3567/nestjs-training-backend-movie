@@ -84,9 +84,15 @@ export class AuthService {
   }
 
   /* Refresh Token @Post */
-  refreshToken(refreshTokenDto: RefreshTokenDto) {
-    const accessToken: string = this.createToken(refreshTokenDto as User);
-    return { accessToken };
+  async refreshToken(refreshTokenDto: RefreshTokenDto) {
+    const { email, id: _id } = refreshTokenDto;
+    const user = await this.userRepository.findOne({ where: { email } });
+    if (user) {
+      const accessToken: string = this.createToken(user);
+      return { accessToken };
+    } else {
+      throw Error('Please complete your user info');
+    }
   }
 
   /* Check Uniq Email in DB */
