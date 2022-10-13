@@ -27,15 +27,10 @@ import { DeleteUserDto } from './dto/delete-user.dot';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  //   @Get()
-  //   test() {
-  //     console.log('hello world!');
-  //   }
-
   @Post('/signup')
   signUp(
     @Body() signupCredentialsDto: SignUpCredentialsDto,
-  ): Promise<{ accessToken: string }> {
+  ): Promise<{ accessToken: string; role: string }> {
     return this.authService.signUp(signupCredentialsDto);
   }
 
@@ -43,7 +38,7 @@ export class AuthController {
   @Post('/signin')
   signIn(
     @Body() signinCredentialsDto: SignInCredentialsDto,
-  ): Promise<{ accessToken: string }> {
+  ): Promise<{ accessToken: string; role: string }> {
     return this.authService.signIn(signinCredentialsDto);
   }
 

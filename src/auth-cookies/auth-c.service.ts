@@ -154,7 +154,6 @@ export class AuthCService {
       id: user.id.toString(),
       username: user.username,
       email: user.email,
-      role: user.role,
       tmdb_key: user.tmdb_key,
     };
     const secretData = {

@@ -20,7 +20,6 @@ import { UpdateCredentialDto } from './dto/update-user.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { CheckEmailDto } from './dto/check-email.dto';
 import { DeleteUserDto } from './dto/delete-user.dot';
-import mongoose from 'mongoose';
 
 @Injectable()
 export class AuthService {
@@ -32,7 +31,7 @@ export class AuthService {
   /* SignUp @Post */
   async signUp(
     signupCredentialsDto: SignUpCredentialsDto,
-  ): Promise<{ accessToken: string }> {
+  ): Promise<{ accessToken: string; role: UserRole }> {
     try {
       const { username, password, email, tmdb_key, role } =
         signupCredentialsDto;
@@ -55,9 +54,9 @@ export class AuthService {
         where: { email },
       });
 
-      const accessToken: string = await this.createToken(userfromdb); // return Token;
+      const accessToken: string = this.createToken(userfromdb); // return Token;
 
-      return { accessToken };
+      return { accessToken, role: user.role };
     } catch (error) {
       if (error.code === '11000') {
         // 23505 --> duplicate username // for postgresql
@@ -72,13 +71,13 @@ export class AuthService {
   /* SignIn @Post */
   async signIn(
     signinCredentialsDto: SignInCredentialsDto,
-  ): Promise<{ accessToken: string }> {
+  ): Promise<{ accessToken: string; role: string }> {
     const { email, password } = signinCredentialsDto;
     const user = await this.userRepository.findOne({ where: { email } });
 
     if (user && (await bcrypt.compare(password, user.password))) {
       const accessToken: string = this.createToken(user);
-      return { accessToken };
+      return { accessToken, role: user.role };
     } else {
       throw new UnauthorizedException('Please check your login credentials');
     }
@@ -91,7 +90,7 @@ export class AuthService {
 
     if (user) {
       const accessToken: string = this.createToken(user);
-      return { accessToken };
+      return { accessToken, role: user.role };
     } else {
       throw Error('Please complete your user info');
     }
@@ -119,7 +118,7 @@ export class AuthService {
       where: { email: user.email },
     });
     const accessToken: string = this.createToken(updatedUser);
-    return { accessToken };
+    return { accessToken, role: updatedUser.role };
   }
 
   /* Delete User @Post */
@@ -167,7 +166,6 @@ export class AuthService {
       id: user.id.toString(),
       username: user.username,
       email: user.email,
-      role: user.role,
       tmdb_key: user.tmdb_key,
     };
 
