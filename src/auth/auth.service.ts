@@ -85,7 +85,7 @@ export class AuthService {
 
   /* Refresh Token @Post */
   async refreshToken(refreshTokenDto: RefreshTokenDto) {
-    const { email, id } = refreshTokenDto;
+    const { email } = refreshTokenDto;
     const user = await this.userRepository.findOne({ email });
 
     if (user) {
@@ -106,7 +106,7 @@ export class AuthService {
   async updateUser(updateCredentialDto: UpdateCredentialDto, user: User) {
     const { role } = updateCredentialDto;
 
-    const update = await this.userRepository.update(
+    await this.userRepository.update(
       { email: user.email },
       {
         ...updateCredentialDto,
