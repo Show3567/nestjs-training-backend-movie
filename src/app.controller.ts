@@ -15,7 +15,8 @@ export class AppController {
   @Sse('sse')
   sse(): Observable<MessageEvent> {
     return interval(1000).pipe(
-      map((num) => {
+      map((_) => {
+        const num = Math.floor(Math.random() * 100_000);
         return { data: { hello: `world ${num}` } } as MessageEvent;
       }),
       take(10),
