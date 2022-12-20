@@ -10,7 +10,7 @@ import { User } from 'src/auth/entities/user.entity';
 import { JwtPayload } from 'src/auth/interfaces/jwt-payload.interface';
 
 @Injectable()
-export class JwtCStrategy extends PassportStrategy(Strategy, 'jwt-c') {
+export class JwtCookieStrategy extends PassportStrategy(Strategy, 'jwt-c') {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
@@ -18,7 +18,7 @@ export class JwtCStrategy extends PassportStrategy(Strategy, 'jwt-c') {
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
-        JwtCStrategy.extractJWT,
+        JwtCookieStrategy.extractJWT,
         ExtractJwt.fromAuthHeaderAsBearerToken(),
       ]),
       secretOrKey: configService.get('JWT_SECRET'),
