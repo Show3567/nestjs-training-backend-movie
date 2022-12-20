@@ -31,4 +31,4 @@ import { JwtCStrategy } from './strategies/jwt-c.strategy';
   controllers: [AuthCookieController],
   providers: [AuthCookieService, JwtCStrategy],
 })
-export class AuthCModule {}
+export class AuthCookieModule {}
