@@ -23,7 +23,7 @@ import { CheckEmailDto } from 'src/auth/dto/check-email.dto';
 
 @ApiTags('auth-c')
 @Controller('auth-c')
-export class AuthCController {
+export class AuthCookieController {
   constructor(private authService: AuthCService) {}
 
   @Post('/signup')

@@ -5,14 +5,17 @@ import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { User } from 'src/auth/entities/user.entity';
-import { AuthCController } from './auth-c.controller';
+import { AuthCookieController } from './auth-c.controller';
 import { AuthCService } from './auth-c.service';
 import { JwtCStrategy } from './strategies/jwt-c.strategy';
 
 @Module({
   imports: [
     ConfigModule,
-    PassportModule.register({ defaultStrategy: 'jwt-c', session: false }), // jwt <----
+    PassportModule.register({
+      defaultStrategy: 'jwt-c',
+      session: false,
+    }), // jwt-c <----
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -25,7 +28,7 @@ import { JwtCStrategy } from './strategies/jwt-c.strategy';
     }),
     TypeOrmModule.forFeature([User]),
   ],
-  controllers: [AuthCController],
+  controllers: [AuthCookieController],
   providers: [AuthCService, JwtCStrategy],
 })
 export class AuthCModule {}
