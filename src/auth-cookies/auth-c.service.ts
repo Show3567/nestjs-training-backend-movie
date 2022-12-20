@@ -21,7 +21,7 @@ import { UpdateCredentialDto } from 'src/auth/dto/update-user.dto';
 import { CheckEmailDto } from 'src/auth/dto/check-email.dto';
 
 @Injectable()
-export class AuthCService {
+export class AuthCookieService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
     private readonly jwtService: JwtService,

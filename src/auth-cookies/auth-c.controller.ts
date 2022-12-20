@@ -12,7 +12,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { ApiForbiddenResponse, ApiTags } from '@nestjs/swagger';
 import { Response, Request } from 'express';
 
-import { AuthCService } from './auth-c.service';
+import { AuthCookieService } from './auth-c.service';
 import { User } from '../auth/entities/user.entity';
 import { GetUser } from 'src/auth/decorators/get-user.decorator';
 
@@ -24,7 +24,7 @@ import { CheckEmailDto } from 'src/auth/dto/check-email.dto';
 @ApiTags('auth-c')
 @Controller('auth-c')
 export class AuthCookieController {
-  constructor(private authService: AuthCService) {}
+  constructor(private authService: AuthCookieService) {}
 
   @Post('/signup')
   signUp(

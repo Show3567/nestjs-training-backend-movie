@@ -6,7 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { User } from 'src/auth/entities/user.entity';
 import { AuthCookieController } from './auth-c.controller';
-import { AuthCService } from './auth-c.service';
+import { AuthCookieService } from './auth-c.service';
 import { JwtCStrategy } from './strategies/jwt-c.strategy';
 
 @Module({
@@ -29,6 +29,6 @@ import { JwtCStrategy } from './strategies/jwt-c.strategy';
     TypeOrmModule.forFeature([User]),
   ],
   controllers: [AuthCookieController],
-  providers: [AuthCService, JwtCStrategy],
+  providers: [AuthCookieService, JwtCStrategy],
 })
 export class AuthCModule {}
