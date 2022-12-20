@@ -23,9 +23,10 @@ import { CheckEmailDto } from 'src/auth/dto/check-email.dto';
 @Injectable()
 export class AuthCookieService {
   constructor(
-    @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
     private readonly jwtService: JwtService,
-    private configService: ConfigService,
+    private readonly configService: ConfigService,
   ) {}
 
   /* SignUp @Post */
