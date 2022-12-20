@@ -17,26 +17,23 @@ export class JwtCStrategy extends PassportStrategy(Strategy, 'jwt-c') {
     private readonly configService: ConfigService,
   ) {
     super({
-      secretOrKey: configService.get('JWT_SECRET'),
       jwtFromRequest: ExtractJwt.fromExtractors([
-        (request: Request) => {
-          const data = request?.cookies['accessToken'];
-          return data ? data.accessToken : null;
-        },
+        JwtCStrategy.extractJWT,
+        ExtractJwt.fromAuthHeaderAsBearerToken(),
       ]),
+      secretOrKey: configService.get('JWT_SECRET'),
       ignoreExpiration: false,
     });
   }
 
-  async validate(payload: JwtPayload): Promise<User> {
-    const { email } = payload;
-    const user: User = await this.userRepository.findOne({
-      where: { email },
-    });
-
-    if (!user) {
-      throw new UnauthorizedException();
+  private static extractJWT(req: Request): string | null {
+    if (
+      req.cookies &&
+      'token' in req.cookies &&
+      req.cookies.user_token.length > 0
+    ) {
+      return req.cookies.token;
     }
-    return user;
+    return null;
   }
 }
