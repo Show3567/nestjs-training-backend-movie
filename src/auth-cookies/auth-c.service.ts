@@ -153,7 +153,6 @@ export class AuthCookieService {
   /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ create JWT to cookie~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
   private createToken(user: User, res: Response) {
     const payload: JwtPayload = {
-      id: user.id.toString(), // <---
       username: user.username,
       email: user.email,
       tmdb_key: user.tmdb_key,
@@ -166,6 +165,5 @@ export class AuthCookieService {
       httpOnly: true,
       maxAge: this.configService.get('TOKEN_EXP'),
     });
-    console.log(2222222);
   }
 }

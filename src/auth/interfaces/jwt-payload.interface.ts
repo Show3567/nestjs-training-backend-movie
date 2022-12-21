@@ -1,5 +1,5 @@
 export interface JwtPayload {
-  id: string;
+  id?: string;
   username: string;
   email: string;
   tmdb_key: string;
