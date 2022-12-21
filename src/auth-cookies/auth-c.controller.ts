@@ -43,6 +43,11 @@ export class AuthCookieController {
     return this.authService.signIn(signinCredentialsDto, res);
   }
 
+  @Get('/signout')
+  signOut(@Res({ passthrough: true }) res: Response) {
+    this.authService.signOut(res);
+  }
+
   @Post('/check-email')
   checkEmail(@Body() checkEmailDto: CheckEmailDto) {
     return this.authService.checkEmail(checkEmailDto);
@@ -65,7 +70,6 @@ export class AuthCookieController {
     // or console.log(request.signedCookies);
   }
 
-  /* still on testing */
   @Get('/refresh-token')
   @UseGuards(AuthGuard('jwt-c'))
   refreshToken(
@@ -74,10 +78,5 @@ export class AuthCookieController {
   ) {
     console.log(user);
     this.authService.refreshToken(user, res);
-  }
-
-  @Get('/signout')
-  signOut(@Res({ passthrough: true }) res: Response) {
-    this.authService.signOut(res);
   }
 }
