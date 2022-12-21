@@ -28,13 +28,10 @@ export class JwtCookieStrategy extends PassportStrategy(Strategy, 'jwt-c') {
 
   private static extractJWT(req: Request): string | null {
     console.log(req.cookies);
-    // if (
-    //   req.cookies &&
-    //   'accessToken' in req.cookies &&
-    //   req.cookies.user_token.length > 0
-    // ) {
-    //   return req.cookies.token;
-    // }
+    if (req.cookies && req.cookies['auth-cookie']) {
+      console.log('in jwt-c strategy', req.cookies['auth-cookie']);
+      return req.cookies.token;
+    }
     return null;
   }
 }

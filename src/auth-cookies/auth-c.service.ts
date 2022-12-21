@@ -138,7 +138,7 @@ export class AuthCookieService {
 
   /* SignOut */
   async signOut(res: Response) {
-    res.cookie('token', '', { expires: new Date() });
+    res.cookie('accessToken', '', { expires: new Date() });
   }
 
   //   async getUser(user: User): Promise<User> {
@@ -161,7 +161,7 @@ export class AuthCookieService {
       accessToken: this.jwtService.sign(payload),
       refreshToken: '',
     };
-    res.cookie('accessToken', secretData, {
+    res.cookie('auth-cookie', secretData, {
       httpOnly: true,
       maxAge: this.configService.get('TOKEN_EXP'),
     });
