@@ -30,9 +30,7 @@ export class AuthCookieController {
   signUp(
     @Body() signupCredentialsDto: SignUpCredentialsDto,
     @Res({ passthrough: true }) res: Response,
-    // ): Promise<User> {
-  ) {
-    console.log('hello');
+  ): Promise<User> {
     return this.authService.signUp(signupCredentialsDto, res);
   }
 
