@@ -27,13 +27,14 @@ export class JwtCookieStrategy extends PassportStrategy(Strategy, 'jwt-c') {
   }
 
   private static extractJWT(req: Request): string | null {
-    if (
-      req.cookies &&
-      'token' in req.cookies &&
-      req.cookies.user_token.length > 0
-    ) {
-      return req.cookies.token;
-    }
+    console.log(req.cookies);
+    // if (
+    //   req.cookies &&
+    //   'accessToken' in req.cookies &&
+    //   req.cookies.user_token.length > 0
+    // ) {
+    //   return req.cookies.token;
+    // }
     return null;
   }
 }
