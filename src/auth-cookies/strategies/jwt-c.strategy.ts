@@ -31,7 +31,7 @@ export class JwtCookieStrategy extends PassportStrategy(Strategy, 'jwt-c') {
   }
 
   async validate(payload: JwtPayload): Promise<User> {
-    console.log(payload);
+    console.log(1111);
 
     const { email } = payload;
     const user: User = await this.userRepository.findOne({
@@ -41,7 +41,6 @@ export class JwtCookieStrategy extends PassportStrategy(Strategy, 'jwt-c') {
     if (!user) {
       throw new UnauthorizedException();
     }
-
     return user;
   }
 }
