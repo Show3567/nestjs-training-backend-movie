@@ -76,7 +76,6 @@ export class AuthCookieController {
     @GetUser() user: User,
     @Res({ passthrough: true }) res: Response,
   ) {
-    console.log(user);
     this.authService.refreshToken(user, res);
   }
 }

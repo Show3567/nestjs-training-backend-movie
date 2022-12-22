@@ -15,7 +15,7 @@ import { JwtCookieStrategy } from './strategies/jwt-c.strategy';
     PassportModule.register({
       defaultStrategy: 'jwt-c',
       session: false,
-    }), // jwt-c <----
+    }),
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
