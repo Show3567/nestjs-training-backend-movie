@@ -161,9 +161,10 @@ export class AuthCookieService {
       accessToken: this.jwtService.sign(payload),
       refreshToken: '',
     };
+    // console.log(this.configService.get('TOKEN_EXP') * 100_000);
     res.cookie('auth-cookie', secretData, {
       httpOnly: true,
-      maxAge: this.configService.get('TOKEN_EXP'),
+      maxAge: this.configService.get('TOKEN_EXP') * 100_000,
     });
   }
 }

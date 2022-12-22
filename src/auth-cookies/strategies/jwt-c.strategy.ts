@@ -18,7 +18,7 @@ export class JwtCookieStrategy extends PassportStrategy(Strategy, 'jwt-c') {
   ) {
     super({
       secretOrKey: configService.get('JWT_SECRET'),
-      ignoreExpiration: false,
+      ignoreExpiration: true,
       jwtFromRequest: ExtractJwt.fromExtractors([
         (req: Request): string | null => {
           const check = req.cookies && req.cookies['auth-cookie'];
@@ -33,8 +33,6 @@ export class JwtCookieStrategy extends PassportStrategy(Strategy, 'jwt-c') {
   }
 
   async validate(payload: JwtPayload): Promise<User> {
-    console.log(1111);
-
     const { email } = payload;
     const user: User = await this.userRepository.findOne({
       where: { email },
