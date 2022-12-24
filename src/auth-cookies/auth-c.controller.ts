@@ -43,6 +43,12 @@ export class AuthCookieController {
     return this.authService.signIn(signinCredentialsDto, res);
   }
 
+  @Get('/initapp')
+  @UseGuards(AuthGuard('jwt-c'))
+  initapp(@GetUser() user: User) {
+    return this.authService.initapp(user);
+  }
+
   @Get('/signout')
   signOut(@Res({ passthrough: true }) res: Response) {
     this.authService.signOut(res);

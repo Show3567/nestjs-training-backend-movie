@@ -96,6 +96,16 @@ export class AuthCookieService {
     }
   }
 
+  async initapp({ email, username, id, tmdb_key, role }: User) {
+    const existUser = await this.userRepository.findOne({
+      where: { email },
+    });
+    if (!existUser)
+      throw new NotFoundException(`User "${username}" not found!`);
+
+    return { email, username, id, tmdb_key, role } as User;
+  }
+
   /* Refresh Token @Get */
   async refreshToken(user: User, res: Response) {
     this.createToken(user, res);
