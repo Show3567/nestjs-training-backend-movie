@@ -2,6 +2,7 @@ import {
   ConflictException,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
@@ -141,14 +142,14 @@ export class AuthCookieService {
     res.cookie('accessToken', '', { expires: new Date() });
   }
 
-  //   async getUser(user: User): Promise<User> {
-  //     const existUser = await this.userRepository.findOne({
-  //       where: { user },
-  //     });
-  //     if (!existUser)
-  //       throw new NotFoundException(`User "${user.username}" not found!`);
-  //     return user;
-  //   }
+  async getUser({ email, username }: User): Promise<User> {
+    const existUser = await this.userRepository.findOne({
+      where: { email },
+    });
+    if (!existUser)
+      throw new NotFoundException(`User "${username}" not found!`);
+    return existUser;
+  }
 
   /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ create JWT to cookie~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
   private createToken(user: User, res: Response) {
