@@ -1,9 +1,9 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { Logger } from '@nestjs/common';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as CookieParser from 'cookie-parser';
 
 async function bootstrap() {
@@ -91,7 +91,6 @@ bootstrap();
     $ npm i --save @nestjs/microservices
 
 */
-
 
 // new Promise((resolve, reject) => {
 //   console.log('hello')
