@@ -91,15 +91,3 @@ bootstrap();
     $ npm i --save @nestjs/microservices
 
 */
-
-
-// new Promise((resolve, reject) => {
-//   console.log('hello')
-// });
-
-// of('hello').pipe(
-//   map(date => {
-//     console.log('hello')
-//     return data
-//   })
-// );
