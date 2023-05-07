@@ -7,6 +7,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { AuthCookieModule } from './auth-cookies/auth-c.module';
+import { DevtoolsModule } from '@nestjs/devtools-integration';
 
 @Module({
   imports: [
@@ -30,6 +31,10 @@ import { AuthCookieModule } from './auth-cookies/auth-c.module';
           synchronize: true,
         };
       },
+    }),
+    /* nestjs devtools */
+    DevtoolsModule.register({
+      http: process.env.NODE_ENV !== 'production',
     }),
     AuthModule,
     AuthCookieModule,
