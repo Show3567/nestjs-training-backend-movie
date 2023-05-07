@@ -90,6 +90,10 @@ bootstrap();
     MicroServices
     $ npm i --save @nestjs/microservices
 
+    Upgrade Nestjs version 8 ---> 9
+    $ npm install -g @nestjs/cli npm-check-updates
+    $ nest update
+    $ npm-check-updates '/@nestjs*_/' -u // remove the_
 */
 
 // new Promise((resolve, reject) => {
