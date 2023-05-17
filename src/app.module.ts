@@ -8,6 +8,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { AuthCookieModule } from './auth-cookies/auth-c.module';
 import { DevtoolsModule } from '@nestjs/devtools-integration';
+import { MoviesModule } from './movies/movies.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { DevtoolsModule } from '@nestjs/devtools-integration';
     }),
     AuthModule,
     AuthCookieModule,
+    MoviesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
