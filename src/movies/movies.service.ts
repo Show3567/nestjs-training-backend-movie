@@ -3,7 +3,7 @@ import axios from 'axios';
 
 @Injectable()
 export class MoviesService {
-  url = 'https://jsonplaceholder.typicode.com/todos';
+  private readonly url = 'https://jsonplaceholder.typicode.com/todos';
 
   async getModie() {
     try {
