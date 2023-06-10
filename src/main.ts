@@ -98,14 +98,3 @@ bootstrap();
     $ nest update
     $ npm-check-updates '/@nestjs*_/' -u // remove the_
 */
-
-// new Promise((resolve, reject) => {
-//   console.log('hello')
-// });
-
-// of('hello').pipe(
-//   map(date => {
-//     console.log('hello')
-//     return data
-//   })
-// );
