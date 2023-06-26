@@ -1,20 +1,8 @@
 runtime: nodejs18 # or another supported version
-
-instance_class: F2
+env: standard
+instance_class: F1
 
 env_variables:
-  STAGE: 'dev'
-  STRIPE_PRIVATE_KEY: 'sk_test_51NK74wDLymWkszACb2r8qSx8IO7EJLJsMcTaJZiTIUIf8NPpCjPgXjovqc3mzcxtWgQe4WFi7SUgB86NuQtaoqVL00gLV8h8sn'
-  STRIPE_PUBLIC_KEY: 'pk_test_51NK74wDLymWkszACLQzuJTWssQM6mwSdU1r1KB1Nhy3dyM4SwQyhE8raETK7OBMWa5G6986Au90YQPag7hq0wRzp00cNySbW2c'
-  MODB_URL: 'mongodb+srv://antraAngular:jVoARhjqNU6GtZQG@cluster0.uqd3b.mongodb.net/user'
-  JWT_SECRET: '7%Z%$>_N8N-@@{VE/na6'U_mM@g[4WF}T%-n{JK_&:(AgT(SMgQ}-U)%h*8U_j\?''
+  MODB_URL: mongodb+srv://antraAngular:jVoARhjqNU6GtZQG@cluster0.uqd3b.mongodb.net/user
+  JWT_SECRET: 7%Z%$>_N8N-@@{VE/na6'U_mM@g[4WF}T%-n{JK_&:(AgT(SMgQ}-U)%h*8U_j\?
   TOKEN_EXP: 1800
-
-handlers:
-  - url: /stylesheets
-    static_dir: stylesheets
-
-  - url: /.*
-    secure: always
-    redirect_http_response_code: 301
-    script: auto

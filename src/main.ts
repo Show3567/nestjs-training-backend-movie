@@ -96,5 +96,7 @@ bootstrap();
     Upgrade Nestjs version 8 ---> 9
     $ npm install -g @nestjs/cli npm-check-updates
     $ nest update
-    $ npm-check-updates '/@nestjs*_/' -u // remove the_
+    $ 
+    
+    OnGcp https://nestjs-training-project.uc.r.appspot.com
 */
