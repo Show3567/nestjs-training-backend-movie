@@ -1,14 +1,15 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { DevtoolsModule } from '@nestjs/devtools-integration';
 
 import { configValidationSchema } from './config/config.schema';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { AuthCookieModule } from './auth-cookies/auth-c.module';
-import { DevtoolsModule } from '@nestjs/devtools-integration';
 import { MoviesModule } from './movies/movies.module';
+import ormConfig from './config/orm.config';
 
 @Module({
   imports: [
@@ -16,22 +17,12 @@ import { MoviesModule } from './movies/movies.module';
     ConfigModule.forRoot({
       //   envFilePath: [`.env.stage.${process.env.STAGE}`],
       envFilePath: [`.env.stage.dev`],
+      load: [ormConfig],
       validationSchema: configValidationSchema,
     }),
     /* typeorm */
     TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => {
-        return {
-          type: 'mongodb',
-          url: configService.get('MODB_URL'),
-          useUnifiedTopology: true,
-          useNewUrlParser: true,
-          autoLoadEntities: true,
-          synchronize: true,
-        };
-      },
+      useFactory: ormConfig,
     }),
     /* nestjs devtools */
     DevtoolsModule.register({
