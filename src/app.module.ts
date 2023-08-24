@@ -9,6 +9,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { AuthCookieModule } from './auth-cookies/auth-c.module';
 import { MoviesModule } from './movies/movies.module';
+import { GptModule } from './gpt/gpt.module';
 import ormConfig from './config/orm.config';
 
 @Module({
@@ -31,6 +32,7 @@ import ormConfig from './config/orm.config';
     AuthModule,
     AuthCookieModule,
     MoviesModule,
+    GptModule,
   ],
   controllers: [AppController],
   providers: [AppService],
