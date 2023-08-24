@@ -7,7 +7,7 @@ import { GptService } from './gpt.service';
   providers: [
     GptService,
     {
-      provide: 'GPTTOKEN',
+      provide: 'OPENAI_API_KEY',
       useValue: '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',
     },
   ],
