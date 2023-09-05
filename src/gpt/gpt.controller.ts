@@ -11,7 +11,7 @@ export class GptController {
   async getModelAnswer(
     @Body() gptMassage: GPTMessageDTO,
   ): Promise<{ role: string; content: string }> {
-    const res = this.gptSrevice.getModelAnswer(gptMassage.msg);
+    const res = this.gptSrevice.getModelAnswer(gptMassage);
     return (await res).message;
   }
 }

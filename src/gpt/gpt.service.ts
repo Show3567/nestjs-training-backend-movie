@@ -2,6 +2,7 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable, NotAcceptableException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import OpenAI from 'openai';
+import { GPTMessageDTO } from './dto/msg.dto';
 
 @Injectable()
 export class GptService {
@@ -16,12 +17,17 @@ export class GptService {
   ) {}
 
   async getModelAnswer(
-    question: string,
+    question: GPTMessageDTO,
   ): Promise<OpenAI.Chat.Completions.ChatCompletion.Choice> {
     try {
+      const syscontent = question.sys ? question.sys : '';
+
       const response = await this.openAi.chat.completions.create({
         model: 'gpt-3.5-turbo',
-        messages: [{ role: 'user', content: question }],
+        messages: [
+          { role: 'system', content: syscontent },
+          { role: 'user', content: question.msg },
+        ],
       });
       return response.choices[0];
     } catch (error) {
