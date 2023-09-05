@@ -1,5 +1,5 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotAcceptableException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import OpenAI from 'openai';
 
@@ -15,16 +15,18 @@ export class GptService {
     private readonly http: HttpService,
   ) {}
 
-  async getModelAnswer(question: string) {
+  async getModelAnswer(
+    question: string,
+  ): Promise<OpenAI.Chat.Completions.ChatCompletion.Choice> {
     try {
       const response = await this.openAi.chat.completions.create({
         model: 'gpt-3.5-turbo',
         messages: [{ role: 'user', content: question }],
       });
-      console.log(response.choices[0].message);
+      return response.choices[0];
     } catch (error) {
       console.log('[CONVERSATION_ERROR]', error);
-      return new Response('Internal error', { status: 500 });
+      throw new NotAcceptableException('error');
     }
   }
 }
