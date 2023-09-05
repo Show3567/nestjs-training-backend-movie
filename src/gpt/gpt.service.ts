@@ -19,7 +19,7 @@ export class GptService {
     try {
       const response = await this.openAi.chat.completions.create({
         model: 'gpt-3.5-turbo',
-        messages: [{ role: 'user', content: 'Hello!' }],
+        messages: [{ role: 'user', content: question }],
       });
       console.log(response.choices[0].message);
     } catch (error) {
