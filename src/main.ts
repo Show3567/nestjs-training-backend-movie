@@ -58,8 +58,8 @@ bootstrap();
     $ npm i bcrypt
 
     JWT:
-    $ npm i @nestjs/jwt @nestjs/passport passport passport-jwt
-    $ npm i @types/passport-jwt
+    $ npm i @nestjs/jwt @nestjs/passport passport passport-jwt passport-google-oauth2 passport-local
+    $ npm i -D @types/passport-google-oauth2 @types/passport-jwt @types/passport-jwt @types/passport-local
 
     Swagger:
     $ npm i @nestjs/swagger swagger-ui-express
@@ -96,7 +96,6 @@ bootstrap();
     Upgrade Nestjs version 8 ---> 9
     $ npm install -g @nestjs/cli npm-check-updates
     $ nest update
-    $ 
     
     OnGcp https://nestjs-training-project.uc.r.appspot.com
 */
