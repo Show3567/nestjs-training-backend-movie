@@ -66,7 +66,7 @@ export class AuthCookieController {
     @Body() updateCredentialDto: UpdateCredentialDto,
     @Res({ passthrough: true }) res: Response,
   ) {
-    console.log(user);
+    console.log('user~~~: ', user);
     return this.authService.updateUser(updateCredentialDto, user, res);
   }
 

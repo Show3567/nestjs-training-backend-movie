@@ -162,7 +162,7 @@ export class AuthService {
 
   /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ create JWT ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
   private createToken(user: User) {
-    console.log(user);
+    console.log('create Token: ', user);
 
     const payload: JwtPayload = {
       id: user.id.toString(),
