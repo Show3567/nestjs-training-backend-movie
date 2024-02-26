@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DevtoolsModule } from '@nestjs/devtools-integration';
+import { ScheduleModule } from '@nestjs/schedule';
 
 import { configValidationSchema } from './config/config.schema';
 import { AppController } from './app.controller';
@@ -29,6 +30,7 @@ import ormConfig from './config/orm.config';
     DevtoolsModule.register({
       http: process.env.NODE_ENV !== 'production',
     }),
+    ScheduleModule.forRoot(),
     AuthModule,
     AuthCookieModule,
     MoviesModule,
