@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DevtoolsModule } from '@nestjs/devtools-integration';
 import { ScheduleModule } from '@nestjs/schedule';
+import { CacheModule } from '@nestjs/cache-manager';
 
 import { configValidationSchema } from './config/config.schema';
 import { AppController } from './app.controller';
@@ -31,6 +32,8 @@ import ormConfig from './config/orm.config';
       http: process.env.NODE_ENV !== 'production',
     }),
     ScheduleModule.forRoot(),
+    CacheModule.register(),
+
     AuthModule,
     AuthCookieModule,
     MoviesModule,

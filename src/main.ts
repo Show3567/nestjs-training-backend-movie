@@ -48,20 +48,20 @@ async function bootstrap() {
 bootstrap();
 
 /* 
-    Typeorm:
+    & Typeorm:
     $ npm i @nestjs/typeorm typeorm pg
 
-    Class libs:
+    & Class libs:
     $ npm i class-validator class-transformer
 
-    Bcrypt:
+    & Bcrypt:
     $ npm i bcrypt
 
-    JWT:
+    & JWT:
     $ npm i @nestjs/jwt @nestjs/passport passport passport-jwt passport-google-oauth2 passport-local
     $ npm i -D @types/passport-google-oauth2 @types/passport-jwt @types/passport-jwt @types/passport-local
 
-    Swagger:
+    & Swagger:
     $ npm i @nestjs/swagger swagger-ui-express
     --------------add to nest-cli.json--------------------------
     +   "compilerOptions": {
@@ -69,33 +69,36 @@ bootstrap();
     +       "plugins": ["@nestjs/swagger/plugin"]
     +   }
     
-    Config: 
+    & Config: 
     $ npm i @nestjs/config
     
-    Joi varification: 
+    & Joi varification: 
     $ npm i @hapi/joi
     
-    Strong JWT secret: 
+    & Strong JWT secret: 
     https://passwordsgenerator.net/
 
-    Cookie-parser
+    & Cookie-parser
     $ npm i cookie-parser
     $ npm i -D @types/cookie-parser
 
-    Mongodb Online Database:
+    & Mongodb Online Database:
     $ npm i @nestjs/mongoose mongoose
     mongodb cloud username: antraAngular, password: jVoARhjqNU6GtZQG
     mongodb+srv://antraAngular:jVoARhjqNU6GtZQG@cluster0.uqd3b.mongodb.net/test
 
-    Apollo Graphql:
+    & Apollo Graphql:
     $ npm i @nestjs/graphql @nestjs/apollo graphql apollo-server-express
 
     MicroServices
     $ npm i --save @nestjs/microservices
 
-    Upgrade Nestjs version 8 ---> 9
+    & Upgrade Nestjs version 8 ---> 9
     $ npm install -g @nestjs/cli npm-check-updates
     $ nest update
     
     OnGcp https://nestjs-training-project.uc.r.appspot.com
+
+    & add redis
+    $ npm install @nestjs/cache-manager cache-manager
 */
