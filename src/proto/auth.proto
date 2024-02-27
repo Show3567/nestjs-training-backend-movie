@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package auth;
+
+message UserRole {
+  string user = 'user';
+  string superuser = 'superuser';
+  string admin = 'admin';
+}
+
+service AuthService {
+  rpc SignUp (HeroById) returns (Hero) {}
+}
