@@ -11,11 +11,10 @@ async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
     AppModule,
     {
-      snapshot: true,
-      transport: Transport.TCP,
+      transport: Transport.GRPC,
       options: {
-        host: 'localhost',
-        port: +PORT,
+        package: 'hero',
+        protoPath: join(__dirname, 'hero/hero.proto'),
       },
     },
   );
