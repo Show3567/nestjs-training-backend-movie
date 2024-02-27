@@ -1,23 +1,24 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { Logger } from '@nestjs/common';
-
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { AppModule } from './app.module';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import * as CookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const logger = new Logger();
+  const PORT = process.env.PORT || 4231;
 
-  const app = await NestFactory.create(AppModule, {
-    snapshot: true,
-  });
-  // app.enableCors({
-  //   credentials: true,
-  //   origin: 'http://localhost:4200',
-  // });
-  app.enableCors();
-  app.use(CookieParser());
+  const app = await NestFactory.createMicroservice<MicroserviceOptions>(
+    AppModule,
+    {
+      snapshot: true,
+      transport: Transport.TCP,
+      options: {
+        host: 'localhost',
+        port: +PORT,
+      },
+    },
+  );
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -29,21 +30,8 @@ async function bootstrap() {
     }),
   );
 
-  /* for swagger documentation */
-  const options = new DocumentBuilder()
-    .setTitle('MoviesBackEnd')
-    .setDescription(
-      'This backend for myMovie web project for Angular Training~',
-    )
-    .setVersion('2.0')
-    .build();
-  const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('api', app, document);
-
-  const PORT = process.env.PORT || 4231;
-  await app.listen(PORT, () => {
-    logger.log(`Application listening on port ${PORT}`);
-  });
+  await app.listen();
+  logger.log(`Application listening on port ${PORT}`);
 }
 bootstrap();
 
